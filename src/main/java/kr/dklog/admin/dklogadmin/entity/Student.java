@@ -1,18 +1,17 @@
 package kr.dklog.admin.dklogadmin.entity;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentRegisterDto;
+import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
+@Builder
+@AllArgsConstructor
 public class Student {
 
     @Id
@@ -29,16 +28,12 @@ public class Student {
 
     private String githubUsername;
 
-    private String authStatus;
+    @Builder.Default
+    private String authStatus = "N";
 
-    @Builder
-    public Student(Long studentId, String name, String phoneNumber, Integer semester, String authCode, String githubUsername, String authStatus) {
-        this.studentId = studentId;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.semester = semester;
-        this.authCode = authCode;
-        this.githubUsername = githubUsername;
-        this.authStatus = authStatus;
+    public ResponseStudentRegisterDto toResponseStudentRegisterDto(Student savedStudent) {
+        return ResponseStudentRegisterDto.builder()
+                .savedSemester(savedStudent.getSemester())
+                .build();
     }
 }
