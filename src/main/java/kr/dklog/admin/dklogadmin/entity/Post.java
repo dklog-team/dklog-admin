@@ -1,5 +1,7 @@
 package kr.dklog.admin.dklogadmin.entity;
 
+import kr.dklog.admin.dklogadmin.common.util.DateFormatUtil;
+import kr.dklog.admin.dklogadmin.dto.response.ResponsePostDto;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -59,5 +61,20 @@ public class Post {
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
         this.member = member;
+    }
+
+    public static ResponsePostDto toResponsePostDto(Post post){
+        ResponsePostDto responsePostDto = ResponsePostDto.builder()
+                .postId(post.getPostId())
+                .title(post.getTitle())
+                .picture(post.getMember().getPicture())
+                .username(post.getMember().getGithubUsername())
+                .createdDate(DateFormatUtil.toDateTime(post.getCreatedDate()))
+                .modifiedDate(DateFormatUtil.toDateTime(post.getModifiedDate()))
+                .contentHtml(post.getContentHtml())
+                .contentMd(post.getContentMd())
+                .views(post.getViews())
+                .build();
+        return responsePostDto;
     }
 }
