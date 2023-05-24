@@ -17,12 +17,12 @@ public class PostController {
 
     //insert하는 경우랑 겹치면 그때가서 uri 생각하기
     @PostMapping
-    public void removeRequsetPostDeleteDto(@RequestBody RequestPostDeleteDto requestPostDeleteDto) {
+    public void postRemove(@RequestBody RequestPostDeleteDto requestPostDeleteDto) {
         postService.removePostList(requestPostDeleteDto.getPostIds());
     }
 
     @GetMapping
-    public ResponseEntity<List<ResponsePostDto>> getResponsePostDtoList(){
+    public ResponseEntity<List<ResponsePostDto>> postList(){
         List<ResponsePostDto> postList = postService.getAll();
         ResponseEntity<List<ResponsePostDto>> response = ResponseEntity.ok(postList);
         return response;
