@@ -1,8 +1,8 @@
 package kr.dklog.admin.dklogadmin.entity;
 
+import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentRegisterDto;
 import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
@@ -34,6 +34,16 @@ public class Student {
     public ResponseStudentRegisterDto toResponseStudentRegisterDto(Student savedStudent) {
         return ResponseStudentRegisterDto.builder()
                 .savedSemester(savedStudent.getSemester())
+                .build();
+    }
+
+    public ResponseStudentDto toResponseStudentDto(Student student) {
+        return ResponseStudentDto.builder()
+                .studentId(student.getStudentId())
+                .name(student.getName())
+                .phoneNumber(student.getPhoneNumber())
+                .semester(student.getSemester())
+                .authStatus(student.getAuthStatus())
                 .build();
     }
 }

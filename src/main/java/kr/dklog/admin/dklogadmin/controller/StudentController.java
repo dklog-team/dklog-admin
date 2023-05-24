@@ -1,14 +1,12 @@
 package kr.dklog.admin.dklogadmin.controller;
 
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentRegisterDto;
+import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentListDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentRegisterDto;
 import kr.dklog.admin.dklogadmin.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -32,6 +30,20 @@ public class StudentController {
                 .toUri();
 
         return ResponseEntity.created(location).body(responseStudentRegisterDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseStudentListDto> getStudentList() {
+        ResponseStudentListDto responseStudentListDto = studentService.getList();
+
+        return ResponseEntity.ok(responseStudentListDto);
+    }
+
+    @GetMapping("/{semester}")
+    public ResponseEntity<ResponseStudentListDto> getStudentListBySemester(@PathVariable int semester) {
+        ResponseStudentListDto responseStudentListDto = studentService.getListBySemester(semester);
+
+        return ResponseEntity.ok(responseStudentListDto);
     }
 
 }
