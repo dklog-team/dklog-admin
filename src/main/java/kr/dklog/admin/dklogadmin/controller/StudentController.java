@@ -1,6 +1,7 @@
 package kr.dklog.admin.dklogadmin.controller;
 
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentRegisterDto;
+import kr.dklog.admin.dklogadmin.dto.request.RequestStudentUpdateDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentListDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentRegisterDto;
 import kr.dklog.admin.dklogadmin.service.StudentService;
@@ -46,4 +47,10 @@ public class StudentController {
         return ResponseEntity.ok(responseStudentListDto);
     }
 
+    @PutMapping("/{studentId}")
+    public ResponseEntity updateStudent(@PathVariable Long studentId, @RequestBody RequestStudentUpdateDto requestStudentUpdateDto) {
+        studentService.edit(studentId, requestStudentUpdateDto);
+
+        return ResponseEntity.ok().build();
+    }
 }

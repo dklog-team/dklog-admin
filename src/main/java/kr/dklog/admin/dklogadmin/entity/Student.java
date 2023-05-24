@@ -1,5 +1,6 @@
 package kr.dklog.admin.dklogadmin.entity;
 
+import kr.dklog.admin.dklogadmin.dto.request.RequestStudentUpdateDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentRegisterDto;
 import lombok.*;
@@ -45,5 +46,12 @@ public class Student {
                 .semester(student.getSemester())
                 .authStatus(student.getAuthStatus())
                 .build();
+    }
+
+    public void update(RequestStudentUpdateDto requestStudentUpdateDto) {
+        this.name = requestStudentUpdateDto.getName();
+        this.phoneNumber = requestStudentUpdateDto.getPhoneNumber();
+        this.semester = requestStudentUpdateDto.getSemester();
+        this.authStatus = requestStudentUpdateDto.getAuthStatus();
     }
 }
