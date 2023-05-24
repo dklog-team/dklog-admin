@@ -15,11 +15,11 @@ public class PostHashtag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postHashtagId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "hashtag_id")
     private Hashtag hashtag;
 }
