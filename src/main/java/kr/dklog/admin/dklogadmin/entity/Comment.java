@@ -1,5 +1,6 @@
 package kr.dklog.admin.dklogadmin.entity;
 
+import kr.dklog.admin.dklogadmin.dto.response.ResponseCommentDto;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,5 +46,18 @@ public class Comment {
         this.modifiedDate = modifiedDate;
         this.member = member;
         this.post = post;
+    }
+
+    public static ResponseCommentDto toResponseCommentDto(Comment comment) {
+
+        return ResponseCommentDto.builder()
+                .commentId(comment.getCommentId())
+                .content(comment.getContent())
+                .createdDate(comment.getCreatedDate())
+                .modifiedDate(comment.getModifiedDate())
+                .memberId(comment.getMember().getMemberId())
+                .postId(comment.getPost().getPostId())
+                .build();
+
     }
 }
