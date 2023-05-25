@@ -40,7 +40,7 @@ public class StudentService {
     }
 
     public ResponseStudentListDto getListBySemester(int semester) {
-        List<Student> studentList = studentRepository.getAllBySemester(semester);
+        List<Student> studentList = studentRepository.findAllBySemester(semester);
 
         return ResponseStudentListDto.builder()
                 .studentList(studentList.stream().map(student -> student.toResponseStudentDto(student))
@@ -49,7 +49,7 @@ public class StudentService {
 
     @Transactional
     public void edit(Long studentId, RequestStudentUpdateDto requestStudentUpdateDto) {
-        Student student = studentRepository.findById(studentId).orElseThrow(() -> new RuntimeException());
+        Student student = studentRepository.findById(studentId).orElseThrow(RuntimeException::new);
 
         student.update(requestStudentUpdateDto);
     }
