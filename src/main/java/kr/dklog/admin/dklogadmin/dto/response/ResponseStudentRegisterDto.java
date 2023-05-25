@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ResponseStudentRegisterDto {
-    private Integer savedSemester;
+    private Long savedId;
 
     @Builder
-    public ResponseStudentRegisterDto(Integer savedSemester) {
-        this.savedSemester = savedSemester;
+    public ResponseStudentRegisterDto(Long savedId) {
+        this.savedId = savedId;
     }
 }

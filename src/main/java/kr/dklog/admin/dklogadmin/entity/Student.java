@@ -34,7 +34,7 @@ public class Student {
 
     public ResponseStudentRegisterDto toResponseStudentRegisterDto(Student savedStudent) {
         return ResponseStudentRegisterDto.builder()
-                .savedSemester(savedStudent.getSemester())
+                .savedId(savedStudent.getStudentId())
                 .build();
     }
 

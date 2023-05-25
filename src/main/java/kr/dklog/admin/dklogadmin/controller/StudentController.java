@@ -23,11 +23,10 @@ public class StudentController {
     public ResponseEntity<ResponseStudentRegisterDto> registerStudent(@RequestBody RequestStudentRegisterDto registerDto){
         ResponseStudentRegisterDto responseStudentRegisterDto = studentService.register(registerDto);
 
-
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("/{semester}")
-                .buildAndExpand(responseStudentRegisterDto.getSavedSemester())
+                .path("/students/{studentId}")
+                .buildAndExpand(responseStudentRegisterDto.getSavedId())
                 .toUri();
 
         return ResponseEntity.created(location).body(responseStudentRegisterDto);
@@ -48,7 +47,7 @@ public class StudentController {
     }
 
     @PutMapping("/{studentId}")
-    public ResponseEntity updateStudent(@PathVariable Long studentId, @RequestBody RequestStudentUpdateDto requestStudentUpdateDto) {
+    public ResponseEntity<?> updateStudent(@PathVariable Long studentId, @RequestBody RequestStudentUpdateDto requestStudentUpdateDto) {
         studentService.edit(studentId, requestStudentUpdateDto);
 
         return ResponseEntity.ok().build();
