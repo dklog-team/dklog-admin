@@ -11,6 +11,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Entity
 @Getter
@@ -28,6 +30,8 @@ public class Post {
     private String contentMd;
 
     private String contentHtml;
+
+    private String contentText;
 
     @Column(columnDefinition = "int default 0")
     private Integer views;
@@ -52,11 +56,12 @@ public class Post {
     private List<Image> images = new ArrayList<>();
 
     @Builder
-    public Post(Long postId, String title, String contentMd, String contentHtml, Integer views, LocalDateTime createdDate, LocalDateTime modifiedDate, Member member) {
+    public Post(Long postId, String title, String contentMd, String contentHtml, String contentText, Integer views, LocalDateTime createdDate, LocalDateTime modifiedDate, Member member) {
         this.postId = postId;
         this.title = title;
         this.contentMd = contentMd;
         this.contentHtml = contentHtml;
+        this.contentText = contentText;
         this.views = views;
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
@@ -71,10 +76,20 @@ public class Post {
                 .username(post.getMember().getGithubUsername())
                 .createdDate(DateFormatUtil.toDateTime(post.getCreatedDate()))
                 .modifiedDate(DateFormatUtil.toDateTime(post.getModifiedDate()))
-                .contentHtml(post.getContentHtml())
-                .contentMd(post.getContentMd())
+                .previewContent(post.getContentText())
+                .previewImage(post.getPreviewImage(post.getContentHtml()))
                 .views(post.getViews())
                 .build();
         return responsePostDto;
+    }
+
+    public String getPreviewImage(String contentHtml) {
+        Pattern pattern = Pattern.compile("(<img src=\")(.*?)(\")");
+        Matcher matcher = pattern.matcher(contentHtml);
+        String imageSrc = null;
+        if (matcher.find()) {
+            imageSrc = matcher.group(2);
+        }
+        return imageSrc;
     }
 }
