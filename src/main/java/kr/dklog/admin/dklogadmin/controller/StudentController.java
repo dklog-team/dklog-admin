@@ -25,7 +25,7 @@ public class StudentController {
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("/students/{studentId}")
+                .path("/{studentId}")
                 .buildAndExpand(responseStudentRegisterDto.getSavedId())
                 .toUri();
 
