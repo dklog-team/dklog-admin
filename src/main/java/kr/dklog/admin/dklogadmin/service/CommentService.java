@@ -13,7 +13,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     @Transactional
-    public void delete(List<Long> commentIds){
+    public void removeCommentList(List<Long> commentIds){
         commentRepository.deleteAllById(commentIds);
     }
 
