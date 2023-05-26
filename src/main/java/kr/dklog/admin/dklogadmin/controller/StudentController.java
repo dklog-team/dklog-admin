@@ -1,5 +1,6 @@
 package kr.dklog.admin.dklogadmin.controller;
 
+import kr.dklog.admin.dklogadmin.dto.request.RequestStudentDeleteDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentRegisterDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentUpdateDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentListDto;
@@ -20,7 +21,7 @@ public class StudentController {
     private final StudentService studentService;
 
     @PostMapping
-    public ResponseEntity<ResponseStudentRegisterDto> registerStudent(@RequestBody RequestStudentRegisterDto registerDto){
+    public ResponseEntity<ResponseStudentRegisterDto> registerStudent(@RequestBody RequestStudentRegisterDto registerDto) {
         ResponseStudentRegisterDto responseStudentRegisterDto = studentService.register(registerDto);
 
         URI location = ServletUriComponentsBuilder
@@ -52,4 +53,12 @@ public class StudentController {
 
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/resources")
+    public ResponseEntity<?> deleteStudent(@RequestBody RequestStudentDeleteDto requestStudentDeleteDto) {
+        studentService.remove(requestStudentDeleteDto);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }
