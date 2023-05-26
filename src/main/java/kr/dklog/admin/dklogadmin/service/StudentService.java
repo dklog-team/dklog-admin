@@ -1,5 +1,6 @@
 package kr.dklog.admin.dklogadmin.service;
 
+import kr.dklog.admin.dklogadmin.dto.request.RequestStudentDeleteDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentRegisterDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentUpdateDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentListDto;
@@ -52,5 +53,10 @@ public class StudentService {
         Student student = studentRepository.findById(studentId).orElseThrow(RuntimeException::new);
 
         student.update(requestStudentUpdateDto);
+    }
+
+    @Transactional
+    public void remove(RequestStudentDeleteDto requestStudentDeleteDto) {
+        studentRepository.deleteAllById(requestStudentDeleteDto.getStudentIds());
     }
 }
