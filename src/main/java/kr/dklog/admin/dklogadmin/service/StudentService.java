@@ -1,5 +1,7 @@
 package kr.dklog.admin.dklogadmin.service;
 
+import kr.dklog.admin.dklogadmin.common.util.PagingUtil;
+import kr.dklog.admin.dklogadmin.dto.common.RequestListDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentDeleteDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentRegisterDto;
@@ -9,6 +11,8 @@ import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentRegisterDto;
 import kr.dklog.admin.dklogadmin.entity.Student;
 import kr.dklog.admin.dklogadmin.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -37,12 +41,14 @@ public class StudentService {
         return student.toResponseStudentRegisterDto(savedStudent);
     }
 
-    public ResponseStudentListDto getList(RequestStudentDto requestStudentDto) {
-        List<Student> studentList = studentRepository.findAll(searchWith(requestStudentDto));
+    public ResponseStudentListDto getList(RequestStudentDto requestStudentDto, RequestListDto requestListDto) {
+        PageRequest pageable = PageRequest.of(requestListDto.getPage(), requestListDto.getPageSize());
+        Page<Student> studentList = studentRepository.findAll(searchWith(requestStudentDto), pageable);
 
 
         return ResponseStudentListDto.builder()
-                .studentList(studentList.stream().map(student -> student.toResponseStudentDto(student))
+                .pagingUtil(new PagingUtil(studentList.getTotalElements(), studentList.getTotalPages(), studentList.getNumber(), studentList.getSize()))
+                .studentList(studentList.getContent().stream().map(student -> student.toResponseStudentDto(student))
                         .collect(Collectors.toList())).build();
     }
 
