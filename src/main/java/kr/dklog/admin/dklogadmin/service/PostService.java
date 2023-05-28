@@ -1,17 +1,20 @@
 package kr.dklog.admin.dklogadmin.service;
 
-import kr.dklog.admin.dklogadmin.common.util.PageUtils;
+import kr.dklog.admin.dklogadmin.common.util.PagingUtil;
 import kr.dklog.admin.dklogadmin.dto.common.RequestPageDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestKeywordDto;
-import kr.dklog.admin.dklogadmin.dto.response.ResponsePostDto;
+import kr.dklog.admin.dklogadmin.dto.response.ResponsePostListDto;
 import kr.dklog.admin.dklogadmin.entity.Post;
 import kr.dklog.admin.dklogadmin.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,10 +28,22 @@ public class PostService {
         postRepository.deleteAllById(postIds);
     }
 
-    public List<ResponsePostDto> getAll(RequestKeywordDto requestKeywordDto, RequestPageDto requestPageDto){
-        Pageable pageable = PageUtils.setPageable(requestPageDto);
-        Page<Post> postList = postRepository.findAll(PostSpecification.searchWith(requestKeywordDto), pageable);
-        List<ResponsePostDto> responsePostDtoList = postList.stream().map(Post::toResponsePostDto).collect(Collectors.toList());
-        return responsePostDtoList;
+    public ResponsePostListDto getAll(RequestKeywordDto requestKeywordDto, RequestPageDto requestPageDto){
+        Pageable pageable = PagingUtil.setPageable(requestPageDto);
+        Page<Post> postList = postRepository.findAll(searchWith(requestKeywordDto), pageable);
+        ResponsePostListDto responsePostListDto = ResponsePostListDto.builder()
+                .pagingUtil(new PagingUtil(postList.getTotalElements(), postList.getTotalPages(), postList.getNumber(), postList.getSize()))
+                .postList(postList.stream().map(Post::toResponsePostDto).collect(Collectors.toList()))
+                .build();
+        return responsePostListDto;
+    }
+
+    public Specification<Post> searchWith(RequestKeywordDto keywordDto){
+        return ((root, query, builder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if(keywordDto.getKeyword() != null || keywordDto.getKeywordType() != null)
+                predicates.add(builder.like(root.get(keywordDto.getKeywordType()), "%"+keywordDto.getKeyword()+"%"));
+            return builder.and(predicates.toArray(new Predicate[0]));
+        });
     }
 }

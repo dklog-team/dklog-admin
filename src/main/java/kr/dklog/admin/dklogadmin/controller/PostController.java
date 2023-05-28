@@ -3,13 +3,11 @@ package kr.dklog.admin.dklogadmin.controller;
 import kr.dklog.admin.dklogadmin.dto.common.RequestPageDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestKeywordDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestPostDeleteDto;
-import kr.dklog.admin.dklogadmin.dto.response.ResponsePostDto;
+import kr.dklog.admin.dklogadmin.dto.response.ResponsePostListDto;
 import kr.dklog.admin.dklogadmin.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,9 +23,9 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ResponsePostDto>> postList(RequestKeywordDto requestKeywordDto, RequestPageDto requestPageDto){
-        List<ResponsePostDto> postList = postService.getAll(requestKeywordDto, requestPageDto);
-        ResponseEntity<List<ResponsePostDto>> response = ResponseEntity.ok(postList);
+    public ResponseEntity<ResponsePostListDto> postList(RequestKeywordDto requestKeywordDto, RequestPageDto requestPageDto){
+        ResponsePostListDto postList = postService.getAll(requestKeywordDto, requestPageDto);
+        ResponseEntity<ResponsePostListDto> response = ResponseEntity.ok(postList);
         return response;
     }
 }
