@@ -43,15 +43,16 @@ public class CommentService {
                 Join<Comment, Member> memberJoin = root.join("member");
                 Join<Member, Student> studentJoin = memberJoin.join("student");
                 predicates.add(criteriaBuilder.like(studentJoin.get("name"), "%" + requestCommentListDto.getName() + "%"));
-                System.out.println("requestCommentListDto.getName() :" + requestCommentListDto.getName());
-                System.out.println("name :" + requestCommentListDto.getName());
             }
+
+            if(StringUtils.hasText(requestCommentListDto.getContent())) {
+                predicates.add(criteriaBuilder.like(root.get("content"),"%"+requestCommentListDto.getContent()+"%"));
+            }
+
             if (requestCommentListDto.getSemester() != null) {
                 Join<Comment, Member> memberJoin = root.join("member");
                 Join<Member, Student> studentJoin = memberJoin.join("student");
                 predicates.add(criteriaBuilder.equal(studentJoin.get("semester"), requestCommentListDto.getSemester()));
-                System.out.println("requestCommentListDto.getSemester() : "+requestCommentListDto.getSemester());
-                System.out.println("semester : "+requestCommentListDto.getSemester());
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

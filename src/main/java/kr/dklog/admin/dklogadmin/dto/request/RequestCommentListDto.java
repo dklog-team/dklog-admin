@@ -12,12 +12,14 @@ public class RequestCommentListDto {
     private Long postId;
     private String name;
     private Integer semester;
+    private String content;
 
     @Builder
-    public RequestCommentListDto(Long memberId, Long postId,String name, Integer semester){
+    public RequestCommentListDto(Long memberId, Long postId,String name, Integer semester,String content){
         this.memberId = memberId;
         this.postId = postId;
         this.name = name;
         this.semester = semester;
+        this.content = content;
     }
 }
