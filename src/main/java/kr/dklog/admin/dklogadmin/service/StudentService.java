@@ -42,7 +42,7 @@ public class StudentService {
     }
 
     public ResponseStudentListDto getList(RequestStudentDto requestStudentDto, RequestListDto requestListDto) {
-        PageRequest pageable = PageRequest.of(requestListDto.getPage(), requestListDto.getPageSize());
+        PageRequest pageable = PageRequest.of(requestListDto.getPage(), requestListDto.getPageSize(), requestListDto.getSortDirection(), requestListDto.getColumn());
         Page<Student> studentList = studentRepository.findAll(searchWith(requestStudentDto), pageable);
 
 
@@ -73,22 +73,8 @@ public class StudentService {
             if (requestStudentDto.getSemester() != null) {
                 predicates.add(criteriaBuilder.equal(root.get("semester"), requestStudentDto.getSemester()));
             }
-            if (predicates.isEmpty()){
-                if ("asc".equalsIgnoreCase(requestStudentDto.getSortDirection())) {
-                    query.orderBy(criteriaBuilder.asc(root.get("studentId")));
-                } else {
-                    query.orderBy(criteriaBuilder.desc(root.get("studentId")));
-                }
-            } else {
-                query.where(criteriaBuilder.and(predicates.toArray(new Predicate[0])));
-                if ("desc".equalsIgnoreCase(requestStudentDto.getSortDirection())) {
-                    query.orderBy(criteriaBuilder.desc(root.get("name")));
-                } else {
-                    query.orderBy(criteriaBuilder.asc(root.get("name")));
-                }
-            }
-
-            return query.getRestriction();
+            
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
     }
 }

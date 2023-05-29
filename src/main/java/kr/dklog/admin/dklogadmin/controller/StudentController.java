@@ -36,7 +36,7 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseStudentListDto> getStudentList(@ModelAttribute RequestStudentDto requestStudentDto, RequestListDto requestListDto) {
+    public ResponseEntity<ResponseStudentListDto> getStudentList(RequestStudentDto requestStudentDto, RequestListDto requestListDto) {
         ResponseStudentListDto responseStudentListDto = studentService.getList(requestStudentDto, requestListDto);
 
         return ResponseEntity.ok(responseStudentListDto);

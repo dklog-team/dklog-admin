@@ -1,6 +1,7 @@
 package kr.dklog.admin.dklogadmin.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kr.dklog.admin.dklogadmin.dto.common.RequestListDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentDeleteDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentRegisterDto;
@@ -101,14 +102,14 @@ class StudentControllerTest {
     @Test
     void 학생전체조회_등록순() throws Exception {
         // given
-        RequestStudentDto requestStudentDto = RequestStudentDto.builder()
-                .sortDirection("asc")
-                .build();
+        RequestListDto requestListDto = new RequestListDto();
+        requestListDto.setSortDirection("asc");
+        requestListDto.setColumn("studentId");
 
-        String sortDirection = requestStudentDto.getSortDirection();
 
         // expected
-        mockMvc.perform(get("/students").param("sortDirection", sortDirection))
+        mockMvc.perform(get("/students").param("sortDirection", String.valueOf(requestListDto.getSortDirection()))
+                        .param("Column", requestListDto.getColumn()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(print());
     }
@@ -133,16 +134,16 @@ class StudentControllerTest {
         // given
         RequestStudentDto requestStudentDto = RequestStudentDto.builder()
                 .semester(1)
-                .sortDirection("desc")
                 .build();
 
         Integer semester = requestStudentDto.getSemester();
-        String sortDirection = requestStudentDto.getSortDirection();
+        String sortDirection = "desc";
 
         // expected
         mockMvc.perform(get("/students")
                         .param("semester", String.valueOf(semester))
-                        .param("sortDirection", sortDirection))
+                        .param("sortDirection", sortDirection)
+                        .param("column", "name"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(print());
     }

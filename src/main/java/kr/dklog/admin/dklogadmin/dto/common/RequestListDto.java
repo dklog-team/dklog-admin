@@ -1,6 +1,7 @@
 package kr.dklog.admin.dklogadmin.dto.common;
 
 import lombok.*;
+import org.springframework.data.domain.Sort;
 
 @Getter
 @Setter
@@ -13,6 +14,10 @@ public class RequestListDto {
     private Integer page = 1;
     @Builder.Default
     private final Integer pageSize = 10;
+    @Builder.Default
+    private Sort.Direction sortDirection = Sort.Direction.DESC;
+
+    private String column;
 
     public Integer getPage() {
         page = page - 1;
@@ -20,5 +25,11 @@ public class RequestListDto {
             page = 0;
         }
         return page;
+    }
+
+    public void setSortDirection(String sortDirection) {
+        if (sortDirection.equalsIgnoreCase("asc")) {
+            this.sortDirection = Sort.Direction.ASC;
+        }
     }
 }

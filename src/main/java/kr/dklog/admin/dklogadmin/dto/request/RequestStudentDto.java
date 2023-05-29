@@ -10,12 +10,9 @@ public class RequestStudentDto {
 
     private Integer semester;
 
-    private String sortDirection;
-
     @Builder
-    public RequestStudentDto(String name, Integer semester, String sortDirection) {
+    public RequestStudentDto(String name, Integer semester) {
         this.name = name;
         this.semester = semester;
-        this.sortDirection = sortDirection;
     }
 }
