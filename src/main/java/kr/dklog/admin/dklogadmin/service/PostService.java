@@ -48,11 +48,10 @@ public class PostService {
     public Specification<Post> searchWith(RequestKeywordDto keywordDto){
         return ((root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
-            if(keywordDto.getKeyword() != null || keywordDto.getKeywordType() != null)
+            if(keywordDto.getKeyword() != null && keywordDto.getKeywordType() != null)
                 predicates.add(builder.like(root.get(keywordDto.getKeywordType()), "%"+keywordDto.getKeyword()+"%"));
             return builder.and(predicates.toArray(new Predicate[0]));
         });
     }
-
 
 }
