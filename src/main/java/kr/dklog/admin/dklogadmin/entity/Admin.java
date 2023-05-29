@@ -1,6 +1,7 @@
 package kr.dklog.admin.dklogadmin.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,4 +22,11 @@ public class Admin {
     private String username;
 
     private String password;
+
+    @Builder
+    public Admin(Long adminId, String username, String password) {
+        this.adminId = adminId;
+        this.username = username;
+        this.password = password;
+    }
 }
