@@ -31,6 +31,7 @@ public class Post {
 
     private String contentHtml;
 
+    @Column(columnDefinition = "TEXT")
     private String contentText;
 
     @Column(columnDefinition = "int default 0")
