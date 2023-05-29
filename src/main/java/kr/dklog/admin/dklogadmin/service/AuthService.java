@@ -43,6 +43,12 @@ public class AuthService {
         Admin admin = adminRepository.findByUsername(requestDto.getUsername())
                 .orElseThrow(() -> new RuntimeException("아이디가 올바르지 않습니다"));
 
+        boolean matches = passwordEncoder.matches(requestDto.getPassword(), admin.getPassword());
+
+        if (!matches) {
+            throw new RuntimeException("비밀번호가 올바르지 않습니다");
+        }
+
         return admin.getAdminId();
     }
 }

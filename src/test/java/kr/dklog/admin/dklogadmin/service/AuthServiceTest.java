@@ -2,6 +2,7 @@ package kr.dklog.admin.dklogadmin.service;
 
 import kr.dklog.admin.dklogadmin.common.crypto.SCryptPasswordEncoder;
 import kr.dklog.admin.dklogadmin.dto.common.ResponseSavedIdDto;
+import kr.dklog.admin.dklogadmin.dto.request.RequestLoginDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestSignUpDto;
 import kr.dklog.admin.dklogadmin.entity.Admin;
 import kr.dklog.admin.dklogadmin.repository.AdminRepository;
@@ -43,5 +44,21 @@ class AuthServiceTest {
                 .orElseThrow(() -> new RuntimeException("관리자 계정이 존재하지 않습니다."));
         assertEquals("admin", admin.getUsername());
         assertTrue(passwordEncoder.matches("admin1!", admin.getPassword()));
+    }
+
+    @Test
+    void 로그인_성공() {
+        // given
+        RequestLoginDto requestLoginDto = RequestLoginDto.builder()
+                .username("admin")
+                .password("dklog1!")
+                .build();
+
+        // when
+        Long userId = authService.signIn(requestLoginDto);
+
+        // then
+        assertNotNull(userId);
+        assertEquals(4L, userId);
     }
 }
