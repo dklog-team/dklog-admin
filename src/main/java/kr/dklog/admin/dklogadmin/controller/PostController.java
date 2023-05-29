@@ -3,6 +3,7 @@ package kr.dklog.admin.dklogadmin.controller;
 import kr.dklog.admin.dklogadmin.dto.common.RequestPageDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestKeywordDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestPostDeleteDto;
+import kr.dklog.admin.dklogadmin.dto.response.ResponsePostDetailDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponsePostListDto;
 import kr.dklog.admin.dklogadmin.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,12 @@ public class PostController {
     @GetMapping
     public ResponseEntity<ResponsePostListDto> postList(RequestKeywordDto requestKeywordDto, RequestPageDto requestPageDto){
         ResponsePostListDto postList = postService.getAll(requestKeywordDto, requestPageDto);
-        ResponseEntity<ResponsePostListDto> response = ResponseEntity.ok(postList);
-        return response;
+        return ResponseEntity.ok(postList);
+    }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<ResponsePostDetailDto> postDetail(@PathVariable Long postId){
+        ResponsePostDetailDto postDetailDto = postService.getOne(postId);
+        return ResponseEntity.ok(postDetailDto);
     }
 }

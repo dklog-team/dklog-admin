@@ -1,6 +1,7 @@
 package kr.dklog.admin.dklogadmin.entity;
 
 import kr.dklog.admin.dklogadmin.common.util.DateFormatUtil;
+import kr.dklog.admin.dklogadmin.dto.response.ResponsePostDetailDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponsePostDto;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -79,6 +80,19 @@ public class Post {
                 .views(post.getViews())
                 .build();
         return responsePostDto;
+    }
+
+    public static ResponsePostDetailDto toResponsePostDetailDto(Post post){
+        ResponsePostDetailDto responsePostDetailDto = ResponsePostDetailDto.builder()
+                .title(post.getTitle())
+                .contentHtml(post.getContentHtml())
+                .createdDate(DateFormatUtil.toDateTime(post.getCreatedDate()))
+                .modifiedDate(DateFormatUtil.toDateTime(post.getModifiedDate()))
+                .username(post.getMember().getGithubUsername())
+                .picture(post.getMember().getPicture())
+                .views(post.getViews())
+                .build();
+        return responsePostDetailDto;
     }
 
     public String getPreviewImage(String contentHtml) {
