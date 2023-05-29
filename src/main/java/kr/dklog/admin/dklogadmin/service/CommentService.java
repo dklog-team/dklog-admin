@@ -1,11 +1,14 @@
 package kr.dklog.admin.dklogadmin.service;
 
+import kr.dklog.admin.dklogadmin.common.util.PagingUtil;
+import kr.dklog.admin.dklogadmin.dto.response.ResponseCommentListDto;
 import kr.dklog.admin.dklogadmin.entity.Member;
 import kr.dklog.admin.dklogadmin.entity.Student;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.StringUtils;
 import kr.dklog.admin.dklogadmin.dto.request.RequestCommentListDto;
-import kr.dklog.admin.dklogadmin.dto.response.ResponseCommentDto;
 import kr.dklog.admin.dklogadmin.entity.Comment;
 import kr.dklog.admin.dklogadmin.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,20 +27,27 @@ import java.util.stream.Collectors;
 public class CommentService {
     private final CommentRepository commentRepository;
 
-    public List<ResponseCommentDto> getList(RequestCommentListDto requestCommentListDto){
+    public ResponseCommentListDto getList(RequestCommentListDto requestCommentListDto){
         Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
-        List<Comment> commentList = commentRepository.findAll(condition(requestCommentListDto), sort);
+        PageRequest pageRequest = PageRequest.of(requestCommentListDto.getPage(), requestCommentListDto.getPageSize(),sort);
+        Page<Comment> commentList = commentRepository.findAll(condition(requestCommentListDto),pageRequest);
 
-        List<ResponseCommentDto> comments= commentList.stream()
+        ResponseCommentListDto responseCommentListDto= ResponseCommentListDto.builder().pagingUtil(new PagingUtil(commentList.getTotalElements(), commentList.getTotalPages(),commentList.getNumber(), commentList.getSize())).commentList(commentList.stream()
                 .map(Comment::toResponseCommentDto)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList())).build();
 
-        return comments;
+        return responseCommentListDto;
     }
 
     public Specification<Comment> condition(RequestCommentListDto requestCommentListDto) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
+
+            if (requestCommentListDto.getStudentId() != null) {
+                Join<Comment, Member> memberJoin = root.join("member");
+                Join<Member, Student> studentJoin = memberJoin.join("student");
+                predicates.add(criteriaBuilder.equal(studentJoin.get("studentId"),  requestCommentListDto.getStudentId()));
+            }
 
             if (StringUtils.hasText(requestCommentListDto.getName())) {
                 Join<Comment, Member> memberJoin = root.join("member");
