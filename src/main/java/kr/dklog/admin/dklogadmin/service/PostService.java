@@ -33,7 +33,7 @@ public class PostService {
         if(requestKeywordDto.getColumn()==null){
             requestKeywordDto.setColumn("postId");
         }
-        Pageable pageable = PageRequest.of(requestKeywordDto.getPage(), requestKeywordDto.getPageSize(), requestKeywordDto.getDir(), requestKeywordDto.getColumn());
+        Pageable pageable = PageRequest.of(requestKeywordDto.getPage(), requestKeywordDto.getPageSize(), requestKeywordDto.getSortDirection(), requestKeywordDto.getColumn());
         Page<Post> postList = postRepository.findAll(searchWith(requestKeywordDto), pageable);
         ResponsePostListDto responsePostListDto = ResponsePostListDto.builder()
                 .pagingUtil(new PagingUtil(postList.getTotalElements(), postList.getTotalPages(), postList.getNumber(), postList.getSize()))
