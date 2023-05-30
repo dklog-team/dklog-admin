@@ -11,7 +11,7 @@ import org.springframework.data.domain.Sort;
 public class RequestListDto {
 
     @Builder.Default
-    private Integer page = 1;
+    private Integer page = 0;
     @Builder.Default
     private final Integer pageSize = 10;
     @Builder.Default
