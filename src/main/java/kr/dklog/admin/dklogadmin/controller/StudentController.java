@@ -1,5 +1,6 @@
 package kr.dklog.admin.dklogadmin.controller;
 
+import kr.dklog.admin.dklogadmin.common.data.AdminData;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentDeleteDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentRegisterDto;
@@ -22,7 +23,7 @@ public class StudentController {
     private final StudentService studentService;
 
     @PostMapping
-    public ResponseEntity<ResponseStudentRegisterDto> registerStudent(@RequestBody RequestStudentRegisterDto registerDto) {
+    public ResponseEntity<ResponseStudentRegisterDto> registerStudent(AdminData adminData, @RequestBody RequestStudentRegisterDto registerDto) {
         ResponseStudentRegisterDto responseStudentRegisterDto = studentService.register(registerDto);
 
         URI location = ServletUriComponentsBuilder
@@ -35,21 +36,21 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseStudentListDto> getStudentList(RequestStudentDto requestStudentDto) {
+    public ResponseEntity<ResponseStudentListDto> getStudentList(AdminData adminData, @ModelAttribute RequestStudentDto requestStudentDto) {
         ResponseStudentListDto responseStudentListDto = studentService.getList(requestStudentDto);
 
         return ResponseEntity.ok(responseStudentListDto);
     }
 
     @PutMapping("/{studentId}")
-    public ResponseEntity<?> updateStudent(@PathVariable Long studentId, @RequestBody RequestStudentUpdateDto requestStudentUpdateDto) {
+    public ResponseEntity<?> updateStudent(AdminData adminData, @PathVariable Long studentId, @RequestBody RequestStudentUpdateDto requestStudentUpdateDto) {
         studentService.edit(studentId, requestStudentUpdateDto);
 
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/resources")
-    public ResponseEntity<?> deleteStudent(@RequestBody RequestStudentDeleteDto requestStudentDeleteDto) {
+    public ResponseEntity<?> deleteStudent(AdminData adminData, @RequestBody RequestStudentDeleteDto requestStudentDeleteDto) {
         studentService.remove(requestStudentDeleteDto);
 
         return ResponseEntity.noContent().build();
