@@ -22,11 +22,16 @@ public class PagingUtil {
         this.pageNumber = pageNumber + 1;
         this.pageSize = pageSize;
         this.totalPageGroups = setTotalPageGroups();
+        this.pageGroup = setPageGroup();
+        this.startPage = setStartPage();
+        this.endPage = setEndPage();
+        this.existPrePageGroup = setExistPrePageGroup();
+        this.existNextPageGroup = setExistNextPageGroup();
     }
 
     private int setTotalPageGroups() {
         if (this.totalpages % this.pageGroupSize == 0)
-            return this.totalPageGroups = totalPageGroups;
+            return this.totalpages/this.pageGroupSize;
         return this.totalpages/this.pageGroupSize +1;
     }
 
