@@ -1,6 +1,7 @@
 package kr.dklog.admin.dklogadmin.controller;
 
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentDeleteDto;
+import kr.dklog.admin.dklogadmin.dto.request.RequestStudentDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentRegisterDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentUpdateDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentListDto;
@@ -34,15 +35,8 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseStudentListDto> getStudentList() {
-        ResponseStudentListDto responseStudentListDto = studentService.getList();
-
-        return ResponseEntity.ok(responseStudentListDto);
-    }
-
-    @GetMapping("/{semester}")
-    public ResponseEntity<ResponseStudentListDto> getStudentListBySemester(@PathVariable int semester) {
-        ResponseStudentListDto responseStudentListDto = studentService.getListBySemester(semester);
+    public ResponseEntity<ResponseStudentListDto> getStudentList(RequestStudentDto requestStudentDto) {
+        ResponseStudentListDto responseStudentListDto = studentService.getList(requestStudentDto);
 
         return ResponseEntity.ok(responseStudentListDto);
     }

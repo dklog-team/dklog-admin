@@ -1,19 +1,16 @@
 package kr.dklog.admin.dklogadmin.dto.response;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import kr.dklog.admin.dklogadmin.dto.common.ResponseListDto;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ResponseStudentListDto {
+@SuperBuilder
+public class ResponseStudentListDto extends ResponseListDto {
 
     List<ResponseStudentDto> studentList;
-    @Builder
-    public ResponseStudentListDto(List<ResponseStudentDto> studentList) {
-        this.studentList = studentList;
-    }
+
 }
