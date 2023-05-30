@@ -41,3 +41,6 @@ out/
 
 ### pid
 application.pid
+
+### http test
+/http
