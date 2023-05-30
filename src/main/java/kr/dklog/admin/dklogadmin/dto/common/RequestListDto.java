@@ -19,12 +19,10 @@ public class RequestListDto {
 
     private String column;
 
-    public Integer getPage() {
-        page = page - 1;
-        if (page < 0) {
-            page = 0;
-        }
-        return page;
+    public void setPage(Integer page) {
+        this.page = page - 1;
+        if (page < 0)
+            this.page = 0;
     }
 
     public void setSortDirection(String sortDirection) {
