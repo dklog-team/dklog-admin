@@ -38,7 +38,6 @@ public class AuthService {
         return ResponseSavedIdDto.builder().savedId(savedAdmin.getAdminId()).build();
     }
 
-    @Transactional
     public Long signIn(RequestLoginDto requestDto) {
         Admin admin = adminRepository.findByUsername(requestDto.getUsername())
                 .orElseThrow(() -> new RuntimeException("아이디가 올바르지 않습니다"));

@@ -6,7 +6,6 @@ import kr.dklog.admin.dklogadmin.dto.request.RequestLoginDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestSignUpDto;
 import kr.dklog.admin.dklogadmin.entity.Admin;
 import kr.dklog.admin.dklogadmin.repository.AdminRepository;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
