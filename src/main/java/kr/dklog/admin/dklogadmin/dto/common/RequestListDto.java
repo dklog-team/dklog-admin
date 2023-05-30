@@ -5,8 +5,7 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.domain.Sort;
 
 @Getter
-@Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @SuperBuilder
 public class RequestListDto {
@@ -32,5 +31,9 @@ public class RequestListDto {
         if (sortDirection.equalsIgnoreCase("asc")) {
             this.sortDirection = Sort.Direction.ASC;
         }
+    }
+
+    public void setColumn(String column) {
+        this.column = column;
     }
 }
