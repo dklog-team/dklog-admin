@@ -24,6 +24,8 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<ResponsePostListDto> postList(RequestKeywordDto requestKeywordDto){
+        System.out.println(requestKeywordDto.getPage());
+        System.out.println(requestKeywordDto.getSortDirection());
         ResponsePostListDto postList = postService.getAll(requestKeywordDto);
         return ResponseEntity.ok(postList);
     }
