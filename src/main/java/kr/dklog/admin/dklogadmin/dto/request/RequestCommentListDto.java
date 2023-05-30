@@ -14,5 +14,4 @@ public class RequestCommentListDto extends RequestListDto {
     private String name;
     private Integer semester;
     private String content;
-
 }
