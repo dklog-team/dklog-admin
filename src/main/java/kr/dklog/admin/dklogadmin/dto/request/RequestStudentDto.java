@@ -1,18 +1,15 @@
 package kr.dklog.admin.dklogadmin.dto.request;
 
+import kr.dklog.admin.dklogadmin.dto.common.RequestListDto;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class RequestStudentDto {
+@SuperBuilder
+public class RequestStudentDto extends RequestListDto {
     private String name;
 
     private Integer semester;
-
-    @Builder
-    public RequestStudentDto(String name, Integer semester) {
-        this.name = name;
-        this.semester = semester;
-    }
 }

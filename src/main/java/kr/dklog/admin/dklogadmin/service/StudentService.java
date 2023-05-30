@@ -1,7 +1,6 @@
 package kr.dklog.admin.dklogadmin.service;
 
 import kr.dklog.admin.dklogadmin.common.util.PagingUtil;
-import kr.dklog.admin.dklogadmin.dto.common.RequestListDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentDeleteDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentRegisterDto;
@@ -41,8 +40,11 @@ public class StudentService {
         return student.toResponseStudentRegisterDto(savedStudent);
     }
 
-    public ResponseStudentListDto getList(RequestStudentDto requestStudentDto, RequestListDto requestListDto) {
-        PageRequest pageable = PageRequest.of(requestListDto.getPage(), requestListDto.getPageSize(), requestListDto.getSortDirection(), requestListDto.getColumn());
+    public ResponseStudentListDto getList(RequestStudentDto requestStudentDto) {
+        if (requestStudentDto.getColumn() == null || "".equals(requestStudentDto.getColumn())) {
+            requestStudentDto.setColumn("studentId");
+        }
+        PageRequest pageable = PageRequest.of(requestStudentDto.getPage(), requestStudentDto.getPageSize(), requestStudentDto.getSortDirection(), requestStudentDto.getColumn());
         Page<Student> studentList = studentRepository.findAll(searchWith(requestStudentDto), pageable);
 
 
@@ -64,7 +66,7 @@ public class StudentService {
         studentRepository.deleteAllById(requestStudentDeleteDto.getStudentIds());
     }
 
-    public Specification<Student> searchWith(RequestStudentDto requestStudentDto) {
+    private Specification<Student> searchWith(RequestStudentDto requestStudentDto) {
         return ((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (StringUtils.hasText(requestStudentDto.getName())) {
@@ -73,7 +75,7 @@ public class StudentService {
             if (requestStudentDto.getSemester() != null) {
                 predicates.add(criteriaBuilder.equal(root.get("semester"), requestStudentDto.getSemester()));
             }
-            
+
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         });
     }

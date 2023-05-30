@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -102,14 +103,16 @@ class StudentControllerTest {
     @Test
     void 학생전체조회_등록순() throws Exception {
         // given
-        RequestListDto requestListDto = new RequestListDto();
-        requestListDto.setSortDirection("asc");
-        requestListDto.setColumn("studentId");
+        RequestStudentDto requestStudentDto = RequestStudentDto.builder()
+                .sortDirection(Sort.Direction.ASC)
+                .build();
 
+        String direction = String.valueOf(requestStudentDto.getSortDirection());
+        String column = requestStudentDto.getColumn();
 
         // expected
-        mockMvc.perform(get("/students").param("sortDirection", String.valueOf(requestListDto.getSortDirection()))
-                        .param("Column", requestListDto.getColumn()))
+        mockMvc.perform(get("/students").param("sortDirection", direction)
+                        .param("Column", column))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(print());
     }
@@ -119,12 +122,15 @@ class StudentControllerTest {
         // given
         RequestStudentDto requestStudentDto = RequestStudentDto.builder()
                 .semester(1)
+                .column("name")
                 .build();
 
-        Integer semester = requestStudentDto.getSemester();
+        String semester = String.valueOf(requestStudentDto.getSemester());
+        String column = requestStudentDto.getColumn();
 
         // expected
-        mockMvc.perform(get("/students").param("semester", String.valueOf(semester)))
+        mockMvc.perform(get("/students").param("semester", semester)
+                        .param("column", column))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(print());
     }
@@ -134,16 +140,19 @@ class StudentControllerTest {
         // given
         RequestStudentDto requestStudentDto = RequestStudentDto.builder()
                 .semester(1)
+                .sortDirection(Sort.Direction.DESC)
+                .column("name")
                 .build();
 
-        Integer semester = requestStudentDto.getSemester();
-        String sortDirection = "desc";
+        String semester = String.valueOf(requestStudentDto.getSemester());
+        String sortDirection = String.valueOf(requestStudentDto.getSortDirection());
+        String column = requestStudentDto.getColumn();
 
         // expected
         mockMvc.perform(get("/students")
-                        .param("semester", String.valueOf(semester))
+                        .param("semester", semester)
                         .param("sortDirection", sortDirection)
-                        .param("column", "name"))
+                        .param("column", column))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(print());
     }
@@ -160,6 +169,25 @@ class StudentControllerTest {
         // expected
         mockMvc.perform(get("/students")
                         .param("name", name))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    void 학생이름과기수검색() throws Exception {
+        // given
+        RequestStudentDto requestStudentDto = RequestStudentDto.builder()
+                .name("홍길동")
+                .semester(2)
+                .build();
+
+        String name = requestStudentDto.getName();
+        String semester = String.valueOf(requestStudentDto.getSemester());
+
+        // expected
+        mockMvc.perform(get("/students")
+                        .param("name", name)
+                        .param("semester", semester))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(print());
     }

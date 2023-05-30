@@ -1,6 +1,5 @@
 package kr.dklog.admin.dklogadmin.controller;
 
-import kr.dklog.admin.dklogadmin.dto.common.RequestListDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentDeleteDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentRegisterDto;
@@ -36,8 +35,8 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseStudentListDto> getStudentList(RequestStudentDto requestStudentDto, RequestListDto requestListDto) {
-        ResponseStudentListDto responseStudentListDto = studentService.getList(requestStudentDto, requestListDto);
+    public ResponseEntity<ResponseStudentListDto> getStudentList(RequestStudentDto requestStudentDto) {
+        ResponseStudentListDto responseStudentListDto = studentService.getList(requestStudentDto);
 
         return ResponseEntity.ok(responseStudentListDto);
     }

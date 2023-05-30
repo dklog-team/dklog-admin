@@ -1,13 +1,14 @@
 package kr.dklog.admin.dklogadmin.dto.common;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.domain.Sort;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class RequestListDto {
 
     @Builder.Default
