@@ -1,5 +1,6 @@
 package kr.dklog.admin.dklogadmin.controller;
 
+import kr.dklog.admin.dklogadmin.common.data.AdminData;
 import kr.dklog.admin.dklogadmin.dto.request.RequestCommentDeleteDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestCommentListDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseCommentListDto;
@@ -15,12 +16,12 @@ public class CommentController {
     private  final CommentService commentService;
 
     @GetMapping
-    public ResponseEntity<ResponseCommentListDto> getCommentList(RequestCommentListDto requestCommentListDto){
+    public ResponseEntity<ResponseCommentListDto> getCommentList(AdminData adminData, RequestCommentListDto requestCommentListDto){
         ResponseCommentListDto responseCommentListDto = commentService.getList(requestCommentListDto);
         return ResponseEntity.ok(responseCommentListDto);
     }
     @PostMapping("/resources")
-    public ResponseEntity<?> commentRemove(@RequestBody RequestCommentDeleteDto requestCommentDeleteDto){
+    public ResponseEntity<?> commentRemove(AdminData adminData, @RequestBody RequestCommentDeleteDto requestCommentDeleteDto){
         commentService.removeCommentList(requestCommentDeleteDto.getCommentIds());
         return ResponseEntity.noContent().build();
     }
