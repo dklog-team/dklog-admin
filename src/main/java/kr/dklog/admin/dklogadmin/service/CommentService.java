@@ -31,7 +31,7 @@ public class CommentService {
             requestCommentListDto.setColumn("createdDate");
 
         PageRequest pageRequest = PageRequest.of(requestCommentListDto.getPage(), requestCommentListDto.getPageSize(), requestCommentListDto.getSortDirection(), requestCommentListDto.getColumn());
-        Page<Comment> commentList = commentRepository.findAll(condition(requestCommentListDto), pageRequest);
+        Page<Comment> commentList = commentRepository.findAll(searchWith(requestCommentListDto), pageRequest);
 
         ResponseCommentListDto responseCommentListDto = ResponseCommentListDto.builder().pagingUtil(new PagingUtil(commentList.getTotalElements(), commentList.getTotalPages(), commentList.getNumber(), commentList.getSize())).commentList(commentList.stream()
                 .map(Comment::toResponseCommentDto)
@@ -45,7 +45,7 @@ public class CommentService {
         commentRepository.deleteAllById(commentIds);
     }
 
-    private Specification<Comment> condition(RequestCommentListDto requestCommentListDto) {
+    private Specification<Comment> searchWith(RequestCommentListDto requestCommentListDto) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 

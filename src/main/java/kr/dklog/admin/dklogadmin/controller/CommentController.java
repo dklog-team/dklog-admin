@@ -19,7 +19,7 @@ public class CommentController {
         ResponseCommentListDto responseCommentListDto = commentService.getList(requestCommentListDto);
         return ResponseEntity.ok(responseCommentListDto);
     }
-    @PostMapping
+    @PostMapping("/resources")
     public ResponseEntity<?> commentRemove(@RequestBody RequestCommentDeleteDto requestCommentDeleteDto){
         commentService.removeCommentList(requestCommentDeleteDto.getCommentIds());
         return ResponseEntity.noContent().build();
