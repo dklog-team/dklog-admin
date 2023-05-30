@@ -1,24 +1,30 @@
 package kr.dklog.admin.dklogadmin.dto.common;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.ToString;
+import org.springframework.data.domain.Sort;
 
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@ToString
 public class RequestListDto {
+    private Integer page = 1;     // 페이지 번호
+    private final Integer pageSize = 10; // 한 페이지 갯수
+    private Sort.Direction dir = Sort.Direction.DESC;
+    private String column = "postId";
 
-    @Builder.Default
-    private Integer page = 1;
-    @Builder.Default
-    private Integer pageSize = 10;
-
-    public Integer getPage() {
-        page = page - 1;
-        if (page < 0) {
+    public void setPage(Integer page) {
+        if(page < 0)
             page = 0;
+        this.page = page;
+    }
+
+    public void setDir(String dir) {
+        if(dir.equalsIgnoreCase("asc")){
+            this.dir = Sort.Direction.ASC;
         }
-        return page;
+    }
+
+    public void setColumn(String column) {
+        this.column = column;
     }
 }

@@ -1,6 +1,5 @@
 package kr.dklog.admin.dklogadmin.controller;
 
-import kr.dklog.admin.dklogadmin.dto.common.RequestPageDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestKeywordDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestPostDeleteDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponsePostDetailDto;
@@ -17,15 +16,15 @@ public class PostController {
     private final PostService postService;
 
     //insert하는 경우랑 겹치면 그때가서 uri 생각하기
-    @PostMapping
+    @PostMapping("/resources")
     public ResponseEntity postRemove(@RequestBody RequestPostDeleteDto requestPostDeleteDto) {
         postService.removePostList(requestPostDeleteDto.getPostIds());
         return ResponseEntity.status(204).build();
     }
 
     @GetMapping
-    public ResponseEntity<ResponsePostListDto> postList(RequestKeywordDto requestKeywordDto, RequestPageDto requestPageDto){
-        ResponsePostListDto postList = postService.getAll(requestKeywordDto, requestPageDto);
+    public ResponseEntity<ResponsePostListDto> postList(RequestKeywordDto requestKeywordDto){
+        ResponsePostListDto postList = postService.getAll(requestKeywordDto);
         return ResponseEntity.ok(postList);
     }
 

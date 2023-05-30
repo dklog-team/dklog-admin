@@ -1,10 +1,7 @@
 package kr.dklog.admin.dklogadmin.common.util;
 
-import kr.dklog.admin.dklogadmin.dto.common.RequestPageDto;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 @Getter
 public class PagingUtil {
@@ -72,9 +69,5 @@ public class PagingUtil {
             return true;
         }
         return false;
-    }
-
-    public static Pageable setPageable(RequestPageDto pageDto){
-        return PageRequest.of(pageDto.getPage()-1, pageDto.getPageSize(), pageDto.getDir(), pageDto.getColumn());
     }
 }
