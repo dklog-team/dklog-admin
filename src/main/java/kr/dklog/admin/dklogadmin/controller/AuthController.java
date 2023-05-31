@@ -55,7 +55,7 @@ public class AuthController {
                 .setIssuedAt(new Date())
                 .compact();
 
-        return ResponseEntity.ok(jws);
+        return ResponseEntity.ok().header("Authorization", jws).body(adminId);
     }
 
     @GetMapping("/test")
