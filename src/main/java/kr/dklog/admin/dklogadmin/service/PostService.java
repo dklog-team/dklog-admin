@@ -2,7 +2,6 @@ package kr.dklog.admin.dklogadmin.service;
 
 import kr.dklog.admin.dklogadmin.common.util.PagingUtil;
 import kr.dklog.admin.dklogadmin.dto.request.RequestKeywordDto;
-import kr.dklog.admin.dklogadmin.dto.response.ResponsePostDetailDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponsePostListDto;
 import kr.dklog.admin.dklogadmin.entity.Post;
 import kr.dklog.admin.dklogadmin.repository.PostRepository;
@@ -42,11 +41,12 @@ public class PostService {
         return responsePostListDto;
     }
 
-    public ResponsePostDetailDto getOne(Long postId){
-        Post post = postRepository.findById(postId).orElseThrow(RuntimeException::new);
-        ResponsePostDetailDto responsePostDetailDto = Post.toResponsePostDetailDto(post);
-        return responsePostDetailDto;
-    }
+
+//    public ResponsePostDetailDto getOne(Long postId){
+//        Post post = postRepository.findById(postId).orElseThrow(RuntimeException::new);
+//        ResponsePostDetailDto responsePostDetailDto = Post.toResponsePostDetailDto(post);
+//        return responsePostDetailDto;
+//    }
 
     private Specification<Post> searchWith(RequestKeywordDto keywordDto){
         return ((root, query, builder) -> {

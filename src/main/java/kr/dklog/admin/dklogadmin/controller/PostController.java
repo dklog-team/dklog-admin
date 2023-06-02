@@ -4,7 +4,6 @@ import kr.dklog.admin.dklogadmin.common.data.AdminData;
 import kr.dklog.admin.dklogadmin.dto.request.RequestKeywordDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestPostDeleteDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponsePopularPostListDto;
-import kr.dklog.admin.dklogadmin.dto.response.ResponsePostDetailDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponsePostListDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseRecentPostListDto;
 import kr.dklog.admin.dklogadmin.service.PostService;
@@ -36,11 +35,12 @@ public class PostController {
         return ResponseEntity.ok(postList);
     }
 
-    @GetMapping("/{postId}")
-    public ResponseEntity<ResponsePostDetailDto> postDetail(AdminData adminData, @PathVariable Long postId) {
-        ResponsePostDetailDto postDetailDto = postService.getOne(postId);
-        return ResponseEntity.ok(postDetailDto);
-    }
+    // 하나만 가져오는 기능이 필요가 없어짐 나중에 필요하면 사용~
+//    @GetMapping("/{postId}")
+//    public ResponseEntity<ResponsePostDetailDto> postDetail(AdminData adminData, @PathVariable Long postId){
+//        ResponsePostDetailDto postDetailDto = postService.getOne(postId);
+//        return ResponseEntity.ok(postDetailDto);
+//    }
 
     @GetMapping("/popular")
     public ResponseEntity<ResponsePopularPostListDto> popular(AdminData adminData) {
