@@ -32,6 +32,9 @@ public class Student {
     @Builder.Default
     private String authStatus = "N";
 
+    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Member member;
+
     public ResponseStudentRegisterDto toResponseStudentRegisterDto(Student savedStudent) {
         return ResponseStudentRegisterDto.builder()
                 .savedId(savedStudent.getStudentId())
