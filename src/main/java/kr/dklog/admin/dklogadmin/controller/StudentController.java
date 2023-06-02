@@ -60,9 +60,9 @@ public class StudentController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/auth/ratio")
-    public ResponseEntity<?> authRatio() {
-        ResponseStudentAuthDataDto studentAuthData = statisticsService.getStudentAuthRatio();
+    @GetMapping("/auth/data")
+    public ResponseEntity<?> authData() {
+        ResponseStudentAuthDataDto studentAuthData = statisticsService.getStudentAuthData();
 
         return ResponseEntity.ok(studentAuthData);
     }

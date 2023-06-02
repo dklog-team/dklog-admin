@@ -115,7 +115,7 @@ public class StatisticsService {
         return responseData;
     }
 
-    public ResponseStudentAuthDataDto getStudentAuthRatio() {
+    public ResponseStudentAuthDataDto getStudentAuthData() {
         List<Student> studentList = studentRepository.findAll();
         List<Student> noAuthStudentList = studentList.stream().filter(student -> student.getAuthStatus().equals("N")).collect(Collectors.toList());
 
