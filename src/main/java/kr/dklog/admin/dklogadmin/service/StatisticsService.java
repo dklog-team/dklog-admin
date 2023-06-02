@@ -102,7 +102,7 @@ public class StatisticsService {
     }
 
     public ResponseRecentPostListDto getRecentPostList() {
-        List<Post> recentPostList = postRepository.findTop5ByOrderByPostIdDesc();
+        List<Post> recentPostList = postRepository.findTop4ByOrderByPostIdDesc();
 
         List<ResponsePostDto> responsePostDtoList = recentPostList.stream()
                 .map(Post::toResponsePostDto)

@@ -16,5 +16,5 @@ public interface PostRepository extends JpaRepository<Post, Long>, JpaSpecificat
             nativeQuery = true)
     List<PopularPostInterface> findPopularPostList();
 
-    List<Post> findTop5ByOrderByPostIdDesc();
+    List<Post> findTop4ByOrderByPostIdDesc();
 }
