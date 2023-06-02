@@ -1,10 +1,16 @@
 package kr.dklog.admin.dklogadmin.service;
 
-import kr.dklog.admin.dklogadmin.dto.response.ResponseVisitorStatisticsDto;
+import kr.dklog.admin.dklogadmin.dto.response.*;
+import kr.dklog.admin.dklogadmin.entity.Post;
+import kr.dklog.admin.dklogadmin.entity.Student;
 import kr.dklog.admin.dklogadmin.entity.Visitor;
+import kr.dklog.admin.dklogadmin.repository.PopularPostInterface;
+import kr.dklog.admin.dklogadmin.repository.PostRepository;
+import kr.dklog.admin.dklogadmin.repository.StudentRepository;
 import kr.dklog.admin.dklogadmin.repository.VisitorRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,7 +28,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class StatisticsService {
 
+    @Value("${url.dklog}")
+    private String dklogUrl;
+
     private final VisitorRepository visitorRepository;
+
+    private final PostRepository postRepository;
+
+    private final StudentRepository studentRepository;
 
     public Long getTotalVisitorCount() {
         return visitorRepository.count();
@@ -60,9 +73,67 @@ public class StatisticsService {
             countList.add(map.get(localDate));
         }
 
-        ResponseVisitorStatisticsDto response = ResponseVisitorStatisticsDto.builder()
+        ResponseVisitorStatisticsDto responseData = ResponseVisitorStatisticsDto.builder()
                 .dateList(dateList)
                 .countList(countList)
+                .build();
+
+        return responseData;
+    }
+
+    public ResponsePopularPostListDto getPopularPostList() {
+        List<PopularPostInterface> popularPostList = postRepository.findPopularPostList();
+
+        List<ResponsePopularPostDto> popularPostDtoList = popularPostList.stream().map((post) -> ResponsePopularPostDto.builder()
+                        .postId(post.getPostId())
+                        .title(post.getTitle())
+                        .views(post.getViews())
+                        .commentCount(post.getCommentCount())
+                        .point(post.getPoint())
+                        .postUrl(dklogUrl + "/post/" + post.getPostId())
+                        .build())
+                .collect(Collectors.toList());
+
+        ResponsePopularPostListDto responseData = ResponsePopularPostListDto.builder()
+                .popularPostList(popularPostDtoList)
+                .build();
+
+        return responseData;
+    }
+
+    public ResponseRecentPostListDto getRecentPostList() {
+        List<Post> recentPostList = postRepository.findTop5ByOrderByPostIdDesc();
+
+        List<ResponsePostDto> responsePostDtoList = recentPostList.stream()
+                .map(Post::toResponsePostDto)
+                .collect(Collectors.toList());
+
+        ResponseRecentPostListDto responseData = ResponseRecentPostListDto.builder()
+                .recentPostList(responsePostDtoList)
+                .build();
+
+        return responseData;
+    }
+
+    public ResponseStudentAuthDataDto getStudentAuthData() {
+        List<Student> studentList = studentRepository.findAll();
+        List<Student> noAuthStudentList = studentList.stream().filter(student -> student.getAuthStatus().equals("N")).collect(Collectors.toList());
+
+        long totalCount = studentList.size();
+        long yesCount = studentList.stream().filter(student -> student.getAuthStatus().equals("Y")).count();
+        long noCount = noAuthStudentList.size();
+        double percent = (yesCount / (double) totalCount) * 100;
+
+        List<ResponseNoAuthStudentDto> noAuthStudentDtoList = noAuthStudentList.stream()
+                .map(Student::toResponseNoAuthStudentDto)
+                .collect(Collectors.toList());
+
+        ResponseStudentAuthDataDto response = ResponseStudentAuthDataDto.builder()
+                .noAuthStudentList(noAuthStudentDtoList)
+                .totalCount(totalCount)
+                .yesCount(yesCount)
+                .noCount(noCount)
+                .percent(percent)
                 .build();
 
         return response;

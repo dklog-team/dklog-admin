@@ -1,11 +1,15 @@
 package kr.dklog.admin.dklogadmin.entity;
 
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentUpdateDto;
+import kr.dklog.admin.dklogadmin.dto.response.ResponseNoAuthStudentDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentRegisterDto;
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 @Getter
@@ -56,5 +60,12 @@ public class Student {
         this.phoneNumber = requestStudentUpdateDto.getPhoneNumber();
         this.semester = requestStudentUpdateDto.getSemester();
         this.authStatus = requestStudentUpdateDto.getAuthStatus();
+    }
+
+    public ResponseNoAuthStudentDto toResponseNoAuthStudentDto() {
+        return ResponseNoAuthStudentDto.builder()
+                .semester(this.semester)
+                .name(this.name)
+                .build();
     }
 }

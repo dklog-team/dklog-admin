@@ -5,8 +5,10 @@ import kr.dklog.admin.dklogadmin.dto.request.RequestStudentDeleteDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentRegisterDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentUpdateDto;
+import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentAuthDataDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentListDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentRegisterDto;
+import kr.dklog.admin.dklogadmin.service.StatisticsService;
 import kr.dklog.admin.dklogadmin.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,8 @@ import java.net.URI;
 public class StudentController {
 
     private final StudentService studentService;
+
+    private final StatisticsService statisticsService;
 
     @PostMapping
     public ResponseEntity<ResponseStudentRegisterDto> registerStudent(AdminData adminData, @RequestBody RequestStudentRegisterDto registerDto) {
@@ -56,4 +60,10 @@ public class StudentController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/auth/data")
+    public ResponseEntity<?> authData(AdminData adminData) {
+        ResponseStudentAuthDataDto studentAuthData = statisticsService.getStudentAuthData();
+
+        return ResponseEntity.ok(studentAuthData);
+    }
 }
