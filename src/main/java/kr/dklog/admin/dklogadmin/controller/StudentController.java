@@ -61,7 +61,7 @@ public class StudentController {
     }
 
     @GetMapping("/auth/data")
-    public ResponseEntity<?> authData() {
+    public ResponseEntity<?> authData(AdminData adminData) {
         ResponseStudentAuthDataDto studentAuthData = statisticsService.getStudentAuthData();
 
         return ResponseEntity.ok(studentAuthData);

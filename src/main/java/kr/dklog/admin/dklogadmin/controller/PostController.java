@@ -49,7 +49,7 @@ public class PostController {
     }
 
     @GetMapping("/recent")
-    public ResponseEntity<ResponseRecentPostListDto> recent() {
+    public ResponseEntity<ResponseRecentPostListDto> recent(AdminData adminData) {
         ResponseRecentPostListDto recentPostList = statisticsService.getRecentPostList();
         return ResponseEntity.ok(recentPostList);
     }
