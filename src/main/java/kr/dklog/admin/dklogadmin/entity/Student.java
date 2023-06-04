@@ -65,4 +65,8 @@ public class Student {
                 .name(this.name)
                 .build();
     }
+
+    public void changeAuthStatus(String authStatus) {
+        this.authStatus = authStatus;
+    }
 }

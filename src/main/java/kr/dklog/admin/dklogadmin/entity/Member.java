@@ -4,6 +4,8 @@ import kr.dklog.admin.dklogadmin.dto.response.ResponseMemberDto;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,6 +29,12 @@ public class Member {
     @OneToOne
     @JoinColumn(name = "student_id")
     private Student student;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
     public Member(Long memberId, String githubUsername, String email, String picture, String role, String username, Student student) {

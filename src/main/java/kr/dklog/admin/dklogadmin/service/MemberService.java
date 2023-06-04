@@ -2,14 +2,21 @@ package kr.dklog.admin.dklogadmin.service;
 
 import kr.dklog.admin.dklogadmin.dto.response.ResponseMemberDto;
 import kr.dklog.admin.dklogadmin.entity.Member;
+import kr.dklog.admin.dklogadmin.entity.Student;
 import kr.dklog.admin.dklogadmin.repository.MemberRepository;
+import kr.dklog.admin.dklogadmin.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+
     private final MemberRepository memberRepository;
+
+    private final StudentRepository studentRepository;
 
     public ResponseMemberDto getOne(Long studentId) {
         Member member = memberRepository.findByStudentStudentId(studentId)
@@ -18,7 +25,16 @@ public class MemberService {
         return member.toResponseMemberDto(member);
     }
 
+    @Transactional
     public void removeMember(Long memberId) {
-        memberRepository.deleteById(memberId);
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(RuntimeException::new);
+
+        memberRepository.delete(member);
+
+        Student student = studentRepository.findByMemberMemberId(memberId)
+                .orElseThrow(RuntimeException::new);
+
+        student.changeAuthStatus("N");
     }
 }
