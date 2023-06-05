@@ -6,6 +6,7 @@ import kr.dklog.admin.dklogadmin.dto.request.RequestPostDeleteDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponsePopularPostListDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponsePostListDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseRecentPostListDto;
+import kr.dklog.admin.dklogadmin.service.ImageService;
 import kr.dklog.admin.dklogadmin.service.PostService;
 import kr.dklog.admin.dklogadmin.service.StatisticsService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,8 @@ public class PostController {
 
     private final StatisticsService statisticsService;
 
+    private final ImageService imageService;
+
     //insert하는 경우랑 겹치면 그때가서 uri 생각하기
     @PostMapping("/resources")
     public ResponseEntity postRemove(AdminData adminData, @RequestBody RequestPostDeleteDto requestPostDeleteDto) {
@@ -29,8 +32,6 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<ResponsePostListDto> postList(AdminData adminData, RequestKeywordDto requestKeywordDto) {
-        System.out.println(requestKeywordDto.getPage());
-        System.out.println(requestKeywordDto.getSortDirection());
         ResponsePostListDto postList = postService.getAll(requestKeywordDto);
         return ResponseEntity.ok(postList);
     }
