@@ -2,7 +2,6 @@ package kr.dklog.admin.dklogadmin.service;
 
 import kr.dklog.admin.dklogadmin.dto.response.ResponseMemberDto;
 import kr.dklog.admin.dklogadmin.entity.Member;
-import kr.dklog.admin.dklogadmin.entity.Student;
 import kr.dklog.admin.dklogadmin.repository.MemberRepository;
 import kr.dklog.admin.dklogadmin.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,11 +29,11 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(RuntimeException::new);
 
+        member.getStudent().changeAuthStatus("N");
+
+        member.changeStudentIdNull();
+
         memberRepository.delete(member);
 
-        Student student = studentRepository.findByMemberMemberId(memberId)
-                .orElseThrow(RuntimeException::new);
-
-        student.changeAuthStatus("N");
     }
 }
