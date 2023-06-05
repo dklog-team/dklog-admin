@@ -12,10 +12,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 @Component
@@ -38,68 +34,26 @@ public class NcpSmsUtil {
 
     private String ncpApiUrl = "https://sens.apigw.ntruss.com";
 
-    public Map getSmsRequestData() throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+    public Map getSmsRequestData(String requestId) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
         Long timestamp = new Timestamp(System.currentTimeMillis()).getTime();
-        String startDate = LocalDateTime.now().minusDays(30L).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS"));
-        String endDate = LocalDateTime.now().minusDays(20L).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:SS"));
-
-        System.out.println(startDate);
-        System.out.println(endDate);
 
         WebClient webClient = WebClient.builder()
                 .baseUrl(ncpApiUrl)
                 .defaultHeader("x-ncp-apigw-timestamp", String.valueOf(timestamp))
                 .defaultHeader("x-ncp-iam-access-key", ncpAccessKey)
-                .defaultHeader("x-ncp-apigw-signature-v2", makeSignature(String.valueOf(timestamp), "/sms/v2/services/" + ncpServiceId + "/messages?requestStartTime=" + startDate + "&requestEndTime=" + endDate, HttpMethod.GET))
+                .defaultHeader("x-ncp-apigw-signature-v2", makeSignature(String.valueOf(timestamp), "/sms/v2/services/" + ncpServiceId + "/messages?requestId=" + requestId, HttpMethod.GET))
                 .build();
 
-        Map result = webClient.get()
-                .uri("/sms/v2/services/" + ncpServiceId + "/messages?requestStartTime=" + startDate + "&requestEndTime=" + endDate)
-//                .uri(uriBuilder -> uriBuilder
-//                        .path("/sms/v2/services/" + ncpServiceId + "/messages")
-//                        .queryParam("requestStartTime", startDate)
-//                        .queryParam("requestEndTime", endDate)
-//                        .build())
+        Map<String, Object> result = webClient.get()
+                .uri("/sms/v2/services/" + ncpServiceId + "/messages?requestId=" + requestId)
                 .retrieve()
                 .bodyToMono(Map.class)
                 .block();
 
         System.out.println(result);
 
-        return (Map) result;
+        return result;
     }
-
-//    public Map<String, Object> sendSms(StudentDto studentDto) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
-//        String content = "[dk log] 인증번호: " + studentDto.getAuthCode();
-//        RequestSmsDto requestSmsDto = RequestSmsDto.builder()
-//                .type(type)
-//                .from(from)
-//                .content(content)
-//                .messages(Collections.singletonList(RequestSmsDto.Message.builder()
-//                        .to(studentDto.getPhoneNumber())
-//                        .build()))
-//                .build();
-//
-//        Map<String, Object> response = send(requestSmsDto, new Timestamp(System.currentTimeMillis()).getTime());
-//        return response;
-//    }
-//
-//    private Map<String, Object> send(RequestSmsDto requestSmsDto, long timestamp) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
-//        WebClient webClient = WebClient.builder()
-//                .baseUrl(ncpApiUrl)
-//                .defaultHeader("x-ncp-apigw-timestamp", String.valueOf(timestamp))
-//                .defaultHeader("x-ncp-iam-access-key", ncpAccessKey)
-//                .defaultHeader("x-ncp-apigw-signature-v2", makeSignature(String.valueOf(timestamp), "/sms/v2/services/" + ncpServiceId + "/messages", HttpMethod.POST))
-//                .build();
-//
-//        Map<String, Object> response = webClient.post()
-//                .uri("/sms/v2/services/" + ncpServiceId + "/messages")
-//                .bodyValue(requestSmsDto)
-//                .retrieve()
-//                .bodyToMono(Map.class)
-//                .block();
-//        return response;
-//    }
 
     private String makeSignature(String timestampString, String urlString, HttpMethod httpMethod) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
 
