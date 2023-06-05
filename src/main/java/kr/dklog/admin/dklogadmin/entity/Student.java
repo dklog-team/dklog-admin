@@ -6,10 +6,7 @@ import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentRegisterDto;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -67,5 +64,9 @@ public class Student {
                 .semester(this.semester)
                 .name(this.name)
                 .build();
+    }
+
+    public void changeAuthStatus(String authStatus) {
+        this.authStatus = authStatus;
     }
 }
