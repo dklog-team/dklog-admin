@@ -21,7 +21,7 @@ public class ImageService {
     public List<String> getImages(int pageNum){
         PageRequest of = PageRequest.of(pageNum, 6);
         List<Image> imageNameList = imageRepository.findAll(of).getContent();
-        List<String> imageList = imageNameList.stream().map(imageName -> "upload-images" + "\\" + imageName.getStoreName() + imageName.getFileType()).collect(Collectors.toList());
+        List<String> imageList = imageNameList.stream().map(imageName -> imageUploadPath + "\\" + imageName.getStoreName() + imageName.getFileType()).collect(Collectors.toList());
         imageList.forEach(System.out::println);
         return imageList;
     }
