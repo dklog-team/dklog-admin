@@ -41,13 +41,6 @@ public class PostService {
         return responsePostListDto;
     }
 
-
-//    public ResponsePostDetailDto getOne(Long postId){
-//        Post post = postRepository.findById(postId).orElseThrow(RuntimeException::new);
-//        ResponsePostDetailDto responsePostDetailDto = Post.toResponsePostDetailDto(post);
-//        return responsePostDetailDto;
-//    }
-
     private Specification<Post> searchWith(RequestKeywordDto keywordDto){
         return ((root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -73,6 +74,7 @@ public class Post {
                 .picture(post.getMember().getPicture())
                 .username(post.getMember().getGithubUsername())
                 .createdDate(DateFormatUtil.toDateTime(post.getCreatedDate()))
+                .preCreatedDate(post.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .modifiedDate(DateFormatUtil.toDateTime(post.getModifiedDate()))
                 .previewContent(post.getContentText())
                 .previewImage(post.getPreviewImage(post.getContentHtml()))
@@ -81,19 +83,6 @@ public class Post {
                 .build();
         return responsePostDto;
     }
-
-//    public static ResponsePostDetailDto toResponsePostDetailDto(Post post){
-//        ResponsePostDetailDto responsePostDetailDto = ResponsePostDetailDto.builder()
-//                .title(post.getTitle())
-//                .contentHtml(post.getContentHtml())
-//                .createdDate(DateFormatUtil.toDateTime(post.getCreatedDate()))
-//                .modifiedDate(DateFormatUtil.toDateTime(post.getModifiedDate()))
-//                .username(post.getMember().getGithubUsername())
-//                .picture(post.getMember().getPicture())
-//                .views(post.getViews())
-//                .build();
-//        return responsePostDetailDto;
-//    }
 
     public String getPreviewImage(String contentHtml) {
         Pattern pattern = Pattern.compile("(<img src=\")(.*?)(\")");
