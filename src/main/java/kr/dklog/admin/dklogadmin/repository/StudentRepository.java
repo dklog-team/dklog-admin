@@ -7,10 +7,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import java.util.Optional;
-
 public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpecificationExecutor<Student> {
     public Page<Student> findAll(Specification<Student> spec, Pageable pageable);
-
-    Optional<Student> findByMemberMemberId(Long memberId);
 }

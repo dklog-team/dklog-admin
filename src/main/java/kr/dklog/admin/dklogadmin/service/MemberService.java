@@ -29,9 +29,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(RuntimeException::new);
 
-        member.getStudent().changeAuthStatus("N");
-
-        member.changeStudentIdNull();
+        member.getStudent().deleteAuthStatus();
 
         memberRepository.delete(member);
 
