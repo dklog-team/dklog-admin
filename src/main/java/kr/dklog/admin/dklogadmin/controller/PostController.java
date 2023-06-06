@@ -29,18 +29,9 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<ResponsePostListDto> postList(AdminData adminData, RequestKeywordDto requestKeywordDto) {
-        System.out.println(requestKeywordDto.getPage());
-        System.out.println(requestKeywordDto.getSortDirection());
         ResponsePostListDto postList = postService.getAll(requestKeywordDto);
         return ResponseEntity.ok(postList);
     }
-
-    // 하나만 가져오는 기능이 필요가 없어짐 나중에 필요하면 사용~
-//    @GetMapping("/{postId}")
-//    public ResponseEntity<ResponsePostDetailDto> postDetail(AdminData adminData, @PathVariable Long postId){
-//        ResponsePostDetailDto postDetailDto = postService.getOne(postId);
-//        return ResponseEntity.ok(postDetailDto);
-//    }
 
     @GetMapping("/popular")
     public ResponseEntity<ResponsePopularPostListDto> popular(AdminData adminData) {
