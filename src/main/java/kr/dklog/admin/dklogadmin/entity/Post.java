@@ -74,7 +74,7 @@ public class Post {
                 .picture(post.getMember().getPicture())
                 .username(post.getMember().getGithubUsername())
                 .createdDate(DateFormatUtil.toDateTime(post.getCreatedDate()))
-                .preCreatedDate(post.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
+                .preCreatedDate(post.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
                 .modifiedDate(DateFormatUtil.toDateTime(post.getModifiedDate()))
                 .previewContent(post.getContentText())
                 .previewImage(post.getPreviewImage(post.getContentHtml()))
