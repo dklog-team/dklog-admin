@@ -7,33 +7,36 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ResponseSmsSendResponseDto {
+public class ResponseSmsResultDataDto {
 
     private String statusCode;
 
     private String statusName;
 
-    private String requestId;
-
-    private String messageId;
-
     private String requestTime;
 
     private String type;
+
+    private String content;
 
     private String from;
 
     private String to;
 
+    private String completeTime;
+
+    private String statusMessage;
+
     @Builder
-    public ResponseSmsSendResponseDto(String statusCode, String statusName, String requestId, String messageId, String requestTime, String type, String from, String to) {
+    public ResponseSmsResultDataDto(String statusCode, String statusName, String requestTime, String type, String content, String from, String to, String completeTime, String statusMessage) {
         this.statusCode = statusCode;
         this.statusName = statusName;
-        this.requestId = requestId;
-        this.messageId = messageId;
         this.requestTime = requestTime;
         this.type = type;
+        this.content = content;
         this.from = from;
         this.to = to;
+        this.completeTime = completeTime;
+        this.statusMessage = statusMessage;
     }
 }

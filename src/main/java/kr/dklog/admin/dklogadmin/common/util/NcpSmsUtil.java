@@ -50,7 +50,24 @@ public class NcpSmsUtil {
                 .bodyToMono(Map.class)
                 .block();
 
-        System.out.println(result);
+        return result;
+    }
+
+    public Map getSmsResultData(String messageId) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+        Long timestamp = new Timestamp(System.currentTimeMillis()).getTime();
+
+        WebClient webClient = WebClient.builder()
+                .baseUrl(ncpApiUrl)
+                .defaultHeader("x-ncp-apigw-timestamp", String.valueOf(timestamp))
+                .defaultHeader("x-ncp-iam-access-key", ncpAccessKey)
+                .defaultHeader("x-ncp-apigw-signature-v2", makeSignature(String.valueOf(timestamp), "/sms/v2/services/" + ncpServiceId + "/messages/" + messageId, HttpMethod.GET))
+                .build();
+
+        Map<String, Object> result = webClient.get()
+                .uri("/sms/v2/services/" + ncpServiceId + "/messages/" + messageId)
+                .retrieve()
+                .bodyToMono(Map.class)
+                .block();
 
         return result;
     }
