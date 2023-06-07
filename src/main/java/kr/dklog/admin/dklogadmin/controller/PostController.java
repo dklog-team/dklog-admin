@@ -1,7 +1,7 @@
 package kr.dklog.admin.dklogadmin.controller;
 
 import kr.dklog.admin.dklogadmin.common.data.AdminData;
-import kr.dklog.admin.dklogadmin.dto.request.RequestKeywordDto;
+import kr.dklog.admin.dklogadmin.dto.request.RequestPostDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestPostDeleteDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponsePopularPostListDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponsePostListDto;
@@ -28,8 +28,8 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponsePostListDto> postList(AdminData adminData, RequestKeywordDto requestKeywordDto) {
-        ResponsePostListDto postList = postService.getAll(requestKeywordDto);
+    public ResponseEntity<ResponsePostListDto> postList(AdminData adminData, RequestPostDto requestPostDto) {
+        ResponsePostListDto postList = postService.getAll(requestPostDto);
         return ResponseEntity.ok(postList);
     }
 
