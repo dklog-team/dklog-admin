@@ -55,7 +55,7 @@ public class PostService {
             List<Predicate> predicates = new ArrayList<>();
             if(StringUtils.hasText(requestPostDto.getKeyword()) && StringUtils.hasText(requestPostDto.getKeywordType()))
                 predicates.add(builder.like(root.get(requestPostDto.getKeywordType()), "%"+requestPostDto.getKeyword()+"%"));
-            if(requestPostDto.getStartDate() != null && requestPostDto.getEndDate() != null)
+            if(requestPostDto.getStartDate() != "" && requestPostDto.getEndDate() != "")
                 predicates.add(builder.between(root.get("createdDate"), LocalDate.parse(requestPostDto.getStartDate()).atStartOfDay(), LocalDate.parse(requestPostDto.getEndDate()).atTime(LocalTime.MAX)));
             return builder.and(predicates.toArray(new Predicate[0]));
         });
