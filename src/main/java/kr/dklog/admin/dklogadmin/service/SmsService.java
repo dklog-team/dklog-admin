@@ -37,7 +37,10 @@ public class SmsService {
     private final SmsSendResponseRepository smsSendResponseRepository;
 
     public ResponseSmsSendRequestDataListDto getSmsDataList(RequestSmsDataListDto requestDto) {
-        PageRequest pageRequest = PageRequest.of(requestDto.getPage(), requestDto.getPageSize(), requestDto.getSortDirection(), "smsSendResponseId");
+        if(requestDto.getColumn() == null || "".equals(requestDto.getColumn())){
+            requestDto.setColumn("smsSendResponseId");
+        }
+        PageRequest pageRequest = PageRequest.of(requestDto.getPage(), requestDto.getPageSize(), requestDto.getSortDirection(), requestDto.getColumn());
         Specification<SmsSendResponse> smsSendResponseSpecification = getSmsSendResponseSpecification(requestDto);
         Page<SmsSendResponse> smsSendResponseList = smsSendResponseRepository.findAll(smsSendResponseSpecification, pageRequest);
         PagingUtil pagingUtil = new PagingUtil(smsSendResponseList.getTotalElements(), smsSendResponseList.getTotalPages(), smsSendResponseList.getNumber(), smsSendResponseList.getSize());
