@@ -1,6 +1,9 @@
 package kr.dklog.admin.dklogadmin.service;
 
 import kr.dklog.admin.dklogadmin.common.crypto.SCryptPasswordEncoder;
+import kr.dklog.admin.dklogadmin.common.exception.DuplicateAdminUsernameException;
+import kr.dklog.admin.dklogadmin.common.exception.InvalidAdminPasswordException;
+import kr.dklog.admin.dklogadmin.common.exception.InvalidAdminUsernameException;
 import kr.dklog.admin.dklogadmin.dto.common.ResponseSavedIdDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestLoginDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestSignUpDto;
@@ -25,7 +28,7 @@ public class AuthService {
         Optional<Admin> adminOptional = adminRepository.findByUsername(requestDto.getUsername());
 
         if (adminOptional.isPresent()) {
-            throw new RuntimeException("이미 존재하는 아이디입니다");
+            throw new DuplicateAdminUsernameException(  );
         }
 
         String encryptedPassword = passwordEncoder.encrypt(requestDto.getPassword());
@@ -40,12 +43,12 @@ public class AuthService {
 
     public Long signIn(RequestLoginDto requestDto) {
         Admin admin = adminRepository.findByUsername(requestDto.getUsername())
-                .orElseThrow(() -> new RuntimeException("아이디가 올바르지 않습니다"));
+                .orElseThrow(InvalidAdminUsernameException::new);
 
         boolean matches = passwordEncoder.matches(requestDto.getPassword(), admin.getPassword());
 
         if (!matches) {
-            throw new RuntimeException("비밀번호가 올바르지 않습니다");
+            throw new InvalidAdminPasswordException();
         }
 
         return admin.getAdminId();
