@@ -33,7 +33,7 @@ public class Student {
     @Builder.Default
     private String authStatus = "N";
 
-    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "student", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Member member;
 
     public ResponseStudentRegisterDto toResponseStudentRegisterDto(Student savedStudent) {
@@ -66,7 +66,9 @@ public class Student {
                 .build();
     }
 
-    public void changeAuthStatus(String authStatus) {
-        this.authStatus = authStatus;
+    public void deleteAuthStatus() {
+        this.githubUsername = null;
+        this.authCode = null;
+        this.authStatus = "N";
     }
 }

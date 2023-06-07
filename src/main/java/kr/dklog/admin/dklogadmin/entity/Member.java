@@ -57,8 +57,4 @@ public class Member {
                 .username(member.getUsername())
                 .build();
     }
-
-    public void changeStudentIdNull() {
-        this.student = null;
-    }
 }

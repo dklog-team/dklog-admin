@@ -21,8 +21,8 @@ public class MemberController {
     }
 
     @PostMapping("/resources")
-    public ResponseEntity<?> deleteMember(AdminData adminData, @RequestBody Long studentId) {
-        memberService.removeMember(studentId);
+    public ResponseEntity<?> deleteMember(AdminData adminData, @RequestBody Long memberId) {
+        memberService.removeMember(memberId);
 
         return ResponseEntity.noContent().build();
     }
