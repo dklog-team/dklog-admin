@@ -22,6 +22,8 @@ public class ResponsePostDto {
 
     private String createdDate;
 
+    private String preCreatedDate;
+
     private String modifiedDate;
 
     private String username;
@@ -29,7 +31,7 @@ public class ResponsePostDto {
     private String picture;
 
     @Builder
-    public ResponsePostDto(Long postId, String title, String previewContent, String previewImage, String contentHtml,Integer views, String createdDate, String modifiedDate, String username, String picture) {
+    public ResponsePostDto(Long postId, String title, String previewContent, String previewImage, String contentHtml, Integer views, String createdDate, String preCreatedDate, String modifiedDate, String username, String picture) {
         this.postId = postId;
         this.title = title;
         this.previewContent = previewContent;
@@ -37,6 +39,7 @@ public class ResponsePostDto {
         this.contentHtml = contentHtml;
         this.views = views;
         this.createdDate = createdDate;
+        this.preCreatedDate = preCreatedDate;
         this.modifiedDate = modifiedDate;
         this.username = username;
         this.picture = picture;

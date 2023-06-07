@@ -8,7 +8,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class RequestKeywordDto extends RequestListDto {
+public class RequestPostDto extends RequestListDto {
     private String keyword;
     private String keywordType;
+    private String startDate;
+    private String endDate;
 }

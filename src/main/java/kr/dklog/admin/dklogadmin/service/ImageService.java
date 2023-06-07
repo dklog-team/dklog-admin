@@ -13,15 +13,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class ImageService {
-    @Value("${image.upload-path}")
-    private String imageUploadPath;
+    @Value("${image.root-url}")
+    private String imageRootUrl;
 
     private final ImageRepository imageRepository;
 
     public List<String> getImages(int pageNum){
         PageRequest of = PageRequest.of(pageNum, 6);
         List<Image> imageNameList = imageRepository.findAll(of).getContent();
-        List<String> imageList = imageNameList.stream().map(imageName -> imageUploadPath + "\\" + imageName.getStoreName() + imageName.getFileType()).collect(Collectors.toList());
+        List<String> imageList = imageNameList.stream().map(imageName -> imageRootUrl + "/" + imageName.getStoreName() + imageName.getFileType()).collect(Collectors.toList());
         imageList.forEach(System.out::println);
         return imageList;
     }

@@ -71,6 +71,6 @@ public class PagingUtil {
     }
 
     public boolean setExistNextPageGroup() {
-        return this.pageGroup < this.totalPages;
+        return this.pageGroup < this.totalPageGroups;
     }
 }
