@@ -22,7 +22,6 @@ public class ImageService {
         PageRequest of = PageRequest.of(pageNum, 6);
         List<Image> imageNameList = imageRepository.findAll(of).getContent();
         List<String> imageList = imageNameList.stream().map(imageName -> imageRootUrl + "/" + imageName.getStoreName() + imageName.getFileType()).collect(Collectors.toList());
-        imageList.forEach(System.out::println);
         return imageList;
     }
 }
