@@ -2,6 +2,7 @@ package kr.dklog.admin.dklogadmin.entity;
 
 import kr.dklog.admin.dklogadmin.common.util.DateFormatUtil;
 import kr.dklog.admin.dklogadmin.dto.response.ResponsePostDto;
+import kr.dklog.admin.dklogadmin.dto.response.ResponseRecentPostDto;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -92,5 +94,19 @@ public class Post {
             imageSrc = matcher.group(2);
         }
         return imageSrc;
+    }
+
+    public ResponseRecentPostDto toResponseRecentPostDto(String postUrl) {
+        return ResponseRecentPostDto.builder()
+                .postId(this.postId)
+                .title(this.title)
+                .previewImage(getPreviewImage(this.contentHtml))
+                .views(this.views)
+                .createdDate(this.createdDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)))
+                .username(this.member.getUsername())
+                .picture(this.member.getPicture())
+                .postUrl(postUrl)
+                .commentCount(this.comments.size())
+                .build();
     }
 }

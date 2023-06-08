@@ -11,10 +11,10 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ResponseRecentPostListDto {
 
-    private List<ResponsePostDto> recentPostList;
+    private List<ResponseRecentPostDto> recentPostList;
 
     @Builder
-    public ResponseRecentPostListDto(List<ResponsePostDto> recentPostList) {
+    public ResponseRecentPostListDto(List<ResponseRecentPostDto> recentPostList) {
         this.recentPostList = recentPostList;
     }
 }
