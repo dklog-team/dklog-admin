@@ -104,12 +104,12 @@ public class StatisticsService {
     public ResponseRecentPostListDto getRecentPostList() {
         List<Post> recentPostList = postRepository.findTop4ByOrderByPostIdDesc();
 
-        List<ResponsePostDto> responsePostDtoList = recentPostList.stream()
-                .map(Post::toResponsePostDto)
+        List<ResponseRecentPostDto> responseRecentPostDtoList = recentPostList.stream()
+                .map(post -> post.toResponseRecentPostDto(dklogUrl + "/post/" + post.getPostId()))
                 .collect(Collectors.toList());
 
         ResponseRecentPostListDto responseData = ResponseRecentPostListDto.builder()
-                .recentPostList(responsePostDtoList)
+                .recentPostList(responseRecentPostDtoList)
                 .build();
 
         return responseData;
