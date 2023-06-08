@@ -18,9 +18,7 @@ public class ImageController {
 
     @GetMapping()
     public ResponseEntity ImageAllList(int pageNum){
-        System.out.println(pageNum);
         List<String> images = imageService.getImages(pageNum);
-        System.out.println(images.get(0));
         return ResponseEntity.ok(images);
     }
 }
