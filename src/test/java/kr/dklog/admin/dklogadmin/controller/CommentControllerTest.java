@@ -179,6 +179,7 @@ public class CommentControllerTest {
     }
 
     @Test
+    @Transactional
     void 게시글삭제_실패() throws Exception{
 
         Comment commentTest1 = commentRepository.save(Comment.builder()
