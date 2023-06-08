@@ -1,10 +1,13 @@
 package kr.dklog.admin.dklogadmin.service;
 
+import kr.dklog.admin.dklogadmin.common.exception.CommentNotFoundException;
 import kr.dklog.admin.dklogadmin.common.util.PagingUtil;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseCommentListDto;
 import kr.dklog.admin.dklogadmin.entity.Member;
 import kr.dklog.admin.dklogadmin.entity.Student;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.util.StringUtils;
@@ -49,18 +52,16 @@ public class CommentService {
 
     @Transactional
     public void removeCommentList(List<Long> commentIds) {
+        try {
         commentRepository.deleteAllById(commentIds);
+        }catch (EmptyResultDataAccessException e){
+            throw new CommentNotFoundException();
+        }
     }
 
     private Specification<Comment> searchWith(RequestCommentListDto requestCommentListDto) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
-
-            if (requestCommentListDto.getStudentId() != null) {
-                Join<Comment, Member> memberJoin = root.join("member");
-                Join<Member, Student> studentJoin = memberJoin.join("student");
-                predicates.add(criteriaBuilder.equal(studentJoin.get("studentId"), requestCommentListDto.getStudentId()));
-            }
 
             if (StringUtils.hasText(requestCommentListDto.getName())) {
                 Join<Comment, Member> memberJoin = root.join("member");
