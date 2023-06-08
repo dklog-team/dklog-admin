@@ -1,5 +1,6 @@
 package kr.dklog.admin.dklogadmin.service;
 
+import kr.dklog.admin.dklogadmin.common.exception.MemberNotFoundException;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseMemberDto;
 import kr.dklog.admin.dklogadmin.entity.Member;
 import kr.dklog.admin.dklogadmin.repository.MemberRepository;
@@ -19,7 +20,7 @@ public class MemberService {
 
     public ResponseMemberDto getOne(Long studentId) {
         Member member = memberRepository.findByStudentStudentId(studentId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(MemberNotFoundException::new);
 
         return member.toResponseMemberDto(member);
     }
@@ -27,7 +28,7 @@ public class MemberService {
     @Transactional
     public void removeMember(Long memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(MemberNotFoundException::new);
 
         member.getStudent().deleteAuthStatus();
 

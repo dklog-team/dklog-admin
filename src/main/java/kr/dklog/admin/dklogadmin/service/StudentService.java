@@ -1,5 +1,6 @@
 package kr.dklog.admin.dklogadmin.service;
 
+import kr.dklog.admin.dklogadmin.common.exception.StudentNotFoundException;
 import kr.dklog.admin.dklogadmin.common.util.PagingUtil;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentDeleteDto;
 import kr.dklog.admin.dklogadmin.dto.request.RequestStudentDto;
@@ -10,6 +11,7 @@ import kr.dklog.admin.dklogadmin.dto.response.ResponseStudentRegisterDto;
 import kr.dklog.admin.dklogadmin.entity.Student;
 import kr.dklog.admin.dklogadmin.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -56,14 +58,19 @@ public class StudentService {
 
     @Transactional
     public void edit(Long studentId, RequestStudentUpdateDto requestStudentUpdateDto) {
-        Student student = studentRepository.findById(studentId).orElseThrow(RuntimeException::new);
+        Student student = studentRepository.findById(studentId).
+                orElseThrow(StudentNotFoundException::new);
 
         student.update(requestStudentUpdateDto);
     }
 
     @Transactional
     public void remove(RequestStudentDeleteDto requestStudentDeleteDto) {
-        studentRepository.deleteAllById(requestStudentDeleteDto.getStudentIds());
+        try {
+            studentRepository.deleteAllById(requestStudentDeleteDto.getStudentIds());
+        } catch (EmptyResultDataAccessException e){
+            throw new StudentNotFoundException();
+        }
     }
 
     private Specification<Student> searchWith(RequestStudentDto requestStudentDto) {
