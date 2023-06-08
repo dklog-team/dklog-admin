@@ -5,6 +5,7 @@ import kr.dklog.admin.dklogadmin.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class ImageService {
     private final ImageRepository imageRepository;
 
     public List<String> getImages(int pageNum){
-        PageRequest of = PageRequest.of(pageNum, 6);
+        PageRequest of = PageRequest.of(pageNum, 12,Sort.Direction.DESC, "imageId");
         List<Image> imageNameList = imageRepository.findAll(of).getContent();
         List<String> imageList = imageNameList.stream().map(imageName -> imageRootUrl + "/" + imageName.getStoreName() + imageName.getFileType()).collect(Collectors.toList());
         return imageList;
