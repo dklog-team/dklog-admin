@@ -36,11 +36,11 @@ out/
 ### VS Code ###
 .vscode/
 
-### config
-/config
-
 ### pid
 application.pid
 
 ### http test
 /http
+
+### production config
+resources-env

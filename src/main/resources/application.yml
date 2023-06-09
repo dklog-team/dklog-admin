@@ -1,8 +1,8 @@
 server:
   port: 8085
 spring:
-  config:
-    location: currentdir/config
+  profiles:
+    active: local
   pid:
     file: application.pid
   jpa:
