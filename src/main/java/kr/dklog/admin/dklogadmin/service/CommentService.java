@@ -1,19 +1,19 @@
 package kr.dklog.admin.dklogadmin.service;
 
 import kr.dklog.admin.dklogadmin.common.util.PagingUtil;
+import kr.dklog.admin.dklogadmin.dto.request.RequestCommentListDto;
 import kr.dklog.admin.dklogadmin.dto.response.ResponseCommentListDto;
+import kr.dklog.admin.dklogadmin.entity.Comment;
 import kr.dklog.admin.dklogadmin.entity.Member;
 import kr.dklog.admin.dklogadmin.entity.Student;
+import kr.dklog.admin.dklogadmin.repository.CommentRepository;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.util.StringUtils;
-import kr.dklog.admin.dklogadmin.dto.request.RequestCommentListDto;
-import kr.dklog.admin.dklogadmin.entity.Comment;
-import kr.dklog.admin.dklogadmin.repository.CommentRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
@@ -34,8 +34,6 @@ public class CommentService {
     public ResponseCommentListDto getList(RequestCommentListDto requestCommentListDto) {
         if (requestCommentListDto.getColumn() == null)
             requestCommentListDto.setColumn("createdDate");
-        System.out.println(requestCommentListDto.getStartDate());
-        System.out.println(requestCommentListDto.getEndDate());
 
         PageRequest pageRequest = PageRequest.of(requestCommentListDto.getPage(), requestCommentListDto.getPageSize(), requestCommentListDto.getSortDirection(), requestCommentListDto.getColumn());
         Page<Comment> commentList = commentRepository.findAll(searchWith(requestCommentListDto), pageRequest);
