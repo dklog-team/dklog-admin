@@ -38,7 +38,7 @@ public class PostService {
     }
 
     public ResponsePostListDto getAll(RequestPostDto requestPostDto){
-        if(requestPostDto.getColumn()==null && requestPostDto.getColumn()==""){
+        if(requestPostDto.getColumn()==null || requestPostDto.getColumn()==""){
             requestPostDto.setColumn("postId");
         }
         Pageable pageable = PageRequest.of(requestPostDto.getPage(), requestPostDto.getPageSize(), requestPostDto.getSortDirection(), requestPostDto.getColumn());
@@ -55,10 +55,9 @@ public class PostService {
             List<Predicate> predicates = new ArrayList<>();
             if(StringUtils.hasText(requestPostDto.getKeyword()) && StringUtils.hasText(requestPostDto.getKeywordType()))
                 predicates.add(builder.like(root.get(requestPostDto.getKeywordType()), "%"+requestPostDto.getKeyword()+"%"));
-            if(requestPostDto.getStartDate() != "" && requestPostDto.getEndDate() != "")
+            if(StringUtils.hasText(requestPostDto.getStartDate())&& StringUtils.hasText(requestPostDto.getEndDate()))
                 predicates.add(builder.between(root.get("createdDate"), LocalDate.parse(requestPostDto.getStartDate()).atStartOfDay(), LocalDate.parse(requestPostDto.getEndDate()).atTime(LocalTime.MAX)));
             return builder.and(predicates.toArray(new Predicate[0]));
         });
     }
-
 }
