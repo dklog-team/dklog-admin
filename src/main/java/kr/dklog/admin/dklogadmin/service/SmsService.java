@@ -1,5 +1,6 @@
 package kr.dklog.admin.dklogadmin.service;
 
+import kr.dklog.admin.dklogadmin.common.exception.SmsResultDataNotFoundException;
 import kr.dklog.admin.dklogadmin.common.util.NcpSmsUtil;
 import kr.dklog.admin.dklogadmin.common.util.PagingUtil;
 import kr.dklog.admin.dklogadmin.dto.request.RequestSmsDataListDto;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
@@ -103,15 +105,14 @@ public class SmsService {
             throw new RuntimeException(e);
         } catch (InvalidKeyException e) {
             throw new RuntimeException(e);
+        } catch (WebClientResponseException.NotFound exception) {
+            throw new SmsResultDataNotFoundException();
         }
     }
 
     private Specification<SmsSendResponse> getSmsSendResponseSpecification(RequestSmsDataListDto requestDto) {
 
         Specification<SmsSendResponse> specifications = Specification.where(null);
-
-        log.info(requestDto.getStartDate());
-        log.info(requestDto.getEndDate());
 
         if (Strings.isNotEmpty(requestDto.getStartDate()) && Strings.isNotEmpty(requestDto.getEndDate())) {
             DateTimeFormatter formatterAtLocalDate = DateTimeFormatter.ofPattern("yyyy-MM-dd");

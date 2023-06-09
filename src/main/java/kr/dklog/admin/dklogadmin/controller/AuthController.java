@@ -45,8 +45,6 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody RequestLoginDto requestDto) {
         Long adminId = authService.signIn(requestDto);
 
-        log.info("jwt key: {}", appConfig.getJwtKey());
-
         SecretKey key = Keys.hmacShaKeyFor(appConfig.getJwtKey());
 
         String jws = Jwts.builder()
@@ -60,7 +58,6 @@ public class AuthController {
 
     @GetMapping("/test")
     public ResponseEntity<?> test(AdminData adminData) {
-        log.info("adminId: {}", adminData.getAdminId());
         return ResponseEntity.ok(adminData);
     }
 }

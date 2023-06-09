@@ -61,7 +61,6 @@ public class StatisticsService {
 
         List<Visitor> visitorList = visitorRepository.findAllByVisitedDateBetween(startDate, endDate);
         Map<LocalDate, Long> map = visitorList.stream().collect(Collectors.groupingBy(Visitor::getConvertedVisitedDate, Collectors.counting()));
-        log.info(map.toString());
 
         ArrayList<LocalDate> keyList = new ArrayList<>(map.keySet());
         Collections.sort(keyList);
