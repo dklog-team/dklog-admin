@@ -11,7 +11,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -102,7 +101,7 @@ public class Post {
                 .title(this.title)
                 .previewImage(getPreviewImage(this.contentHtml))
                 .views(this.views)
-                .createdDate(this.createdDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)))
+                .createdDate(this.createdDate.format(DateTimeFormatter.ofPattern("yy-MM-dd")))
                 .username(this.member.getUsername())
                 .picture(this.member.getPicture())
                 .postUrl(postUrl)
