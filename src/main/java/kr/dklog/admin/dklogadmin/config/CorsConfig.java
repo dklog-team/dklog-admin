@@ -10,7 +10,7 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://127.0.0.1:9095", "http://localhost:9095", "http://www.dklog.kr:9095", "http://dklog.kr:9095", "http://admin.dklog.kr")
+                .allowedOrigins("http://127.0.0.1:9095", "http://localhost:9095", "http://www.dklog.kr:9095", "http://dklog.kr:9095", "http://admin.dklog.kr", "http://test-container-vue:80", "http://test-container-vue")
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .exposedHeaders("*");
