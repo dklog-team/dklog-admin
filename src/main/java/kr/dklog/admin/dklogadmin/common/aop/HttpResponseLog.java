@@ -58,13 +58,15 @@ public class HttpResponseLog {
         Object body = response.getBody();
 
         String result = "";
-        result += body.getClass().getSimpleName() + "[";
-        Field[] declaredFields = body.getClass().getDeclaredFields();
-        for (Field declaredField : declaredFields) {
-            declaredField.setAccessible(true);
-            result += declaredField.getName() + " = " + declaredField.get(body) + ", ";
+        if (body != null) {
+            result += body.getClass().getSimpleName() + "[";
+            Field[] declaredFields = body.getClass().getDeclaredFields();
+            for (Field declaredField : declaredFields) {
+                declaredField.setAccessible(true);
+                result += declaredField.getName() + " = " + declaredField.get(body) + ", ";
+            }
+            result += "], ";
         }
-        result += "], ";
 
         return result;
     }

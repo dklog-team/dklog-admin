@@ -44,6 +44,3 @@ application.pid
 
 ### production config
 resources-env
-
-### dockerfile
-Dockerfile
